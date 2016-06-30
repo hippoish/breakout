@@ -1,0 +1,47 @@
+.board {
+  width: 624px;
+  height: 162px;
+  margin: auto;
+
+}
+
+.brick {
+  width: 100px;
+  height: 50px;
+  margin: 2px;
+  background: black;
+  float: left;
+}
+
+#top-row .brick {
+  background: rgb(255, 0, 0);
+}
+
+#middle-row .brick {
+  background: rgb(0, 255, 0);
+}
+
+#bottom-row .brick {
+  background: rgb(0, 0, 255);
+}
+
+div.clear {
+  clear: both;
+}
+
+#ball {
+  width: 50px;
+  height: 50px;
+  background: black;
+  border-radius: 50%;
+}
+
+#paddle {
+  width: 200px;
+  height: 50px;
+  color: rgb(255, 255, 255);
+  border: 5px solid black;
+  position: relative;
+  top: 300px;
+  margin: auto;
+}

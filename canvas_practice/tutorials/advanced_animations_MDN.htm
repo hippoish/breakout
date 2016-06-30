@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations -->
+<html lang="en-US" dir="ltr" class="redesign " data-ffo-opensanslight="true" data-ffo-opensans="true"><head prefix="og: http://ogp.me/ns#"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <script async="" src="./Advanced animations - Web APIs _ MDN_files/analytics.js"></script><script>(function(d) { d.className = d.className.replace(/\bno-js/, ''); })(document.documentElement);</script>
+  
+    
+  
+
+  
+  <title>Advanced animations - Web APIs | MDN</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="index, follow">
+  <link rel="home" href="https://developer.mozilla.org/en-US/">
+  <link rel="copyright" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#copyright">
+
+  
+    
+    
+    <link href="./Advanced animations - Web APIs _ MDN_files/mdn.593f20d8c365.css" rel="stylesheet" type="text/css">
+
+    
+  
+    <link href="./Advanced animations - Web APIs _ MDN_files/wiki.328342d23d10.css" rel="stylesheet" type="text/css">
+
+    
+
+    
+
+
+  <!-- common social tags -->
+  
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://developer.cdn.mozilla.net/static/img/opengraph-logo.dc4e08e2f6af.png">
+  <meta property="og:site_name" content="Mozilla Developer Network">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://developer.cdn.mozilla.net/static/img/opengraph-logo.dc4e08e2f6af.png">
+  <meta name="twitter:site" content="@MozDevNet">
+  <meta name="twitter:creator" content="@MozDevNet">
+
+  <link rel="search" type="application/opensearchdescription+xml" href="https://developer.mozilla.org/en-US/search/xml" title="Mozilla Developer Network">
+
+  <!-- third-generation iPad with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://developer.cdn.mozilla.net/static/img/favicon144.a6e4162070f4.png">
+  <!-- iPhone with high-resolution Retina display: -->
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://developer.cdn.mozilla.net/static/img/favicon114.0e9fabd44f85.png">
+  <!-- first- and second-generation iPad: -->
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://developer.cdn.mozilla.net/static/img/favicon72.8ff9d87c82a0.png">
+  <!-- non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+  <link rel="apple-touch-icon-precomposed" href="https://developer.cdn.mozilla.net/static/img/favicon57.a2490b9a2d76.png">
+  <!-- basic favicon -->
+  
+    
+  
+  <link rel="shortcut icon" href="https://developer.cdn.mozilla.net/static/img/favicon32.e02854fdcf73.png">
+  <!--[if IE]>
+  <meta http-equiv="imagetoolbar" content="no">
+  <script type="text/javascript" src="https://developer.cdn.mozilla.net/static/build/js/html5shiv.3948ccddab6f.js" charset="utf-8"></script>
+  <![endif]-->
+
+  
+  <link rel="alternate" type="application/json" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$json">
+  <link rel="canonical" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations">
+
+  
+    
+      <link rel="alternate" hreflang="de" href="https://developer.mozilla.org/de/docs/Web/Guide/HTML/Canvas_Tutorial/Advanced_animations" title="Fortgeschrittene Animationen">
+    
+      <link rel="alternate" hreflang="fr" href="https://developer.mozilla.org/fr/docs/Tutoriel_canvas/Advanced_animations" title="Animations avancées">
+    
+      <link rel="alternate" hreflang="ja" href="https://developer.mozilla.org/ja/docs/Web/Guide/HTML/Canvas_tutorial/Advanced_animations" title="Advanced animations">
+    
+      <link rel="alternate" hreflang="zh-CN" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Advanced_animations" title="高级动画">
+    
+  
+
+  <!-- document-specific social tags -->
+  <meta property="og:title" content="Advanced animations">
+  <meta property="og:url" content="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations">
+  <meta name="twitter:url" content="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations">
+  <meta name="twitter:title" content="Advanced animations">
+  
+  <meta property="og:description" content="We are going to use a ball for our animation studies, so let&#39;s first draw that ball onto the canvas. The following code will set us up.">
+  <meta name="description" content="We are going to use a ball for our animation studies, so let&#39;s first draw that ball onto the canvas. The following code will set us up.">
+  <meta name="twitter:description" content="We are going to use a ball for our animation studies, so let&#39;s first draw that ball onto the canvas. The following code will set us up.">
+  
+
+
+  
+    
+
+<script type="text/javascript">
+
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-36116321-5', 'mozilla.org');
+    ga('set', 'anonymizeIp', true);
+
+    
+        // dimension1 == 'Signed-In"
+        ga('set', 'dimension1', 'Yes');
+
+        // dimension2 == "Beta Tester"
+        
+    
+
+    // dimension9 == "Section editing"
+    
+
+    (function() {
+        // http://cfsimplicity.com/61/removing-analytics-clutter-from-campaign-urls
+        var win = window;
+        var removeUtms = function(){
+            var location = win.location;
+            if (location.href.indexOf('utm') != -1 && win.history.replaceState) {
+                win.history.replaceState({}, '', location.pathname);
+            }
+        };
+
+        ga('send', 'pageview', {'hitCallback': removeUtms});
+    })();
+</script>
+
+  
+<script async="" data-manual="true" src="./Advanced animations - Web APIs _ MDN_files/syntax-prism.7a66ddfa68bf.js"></script></head>
+<body data-slug="Web/API/Canvas_API/Tutorial/Advanced_animations" contextmenu="edit-history-menu" data-search-url="" class="document  " data-login-service="github">
+
+  <script type="text/javascript">
+    (function(win) {
+        'use strict';
+
+        
+            (function(){
+  var FLAGS = {
+    'compat_api': false,'kumaediting': true,'page_move': false,'registration_disabled': false,'search_suggestions': false,'section_edit': false,'spam_admin_override': false,'spam_checks_enabled': true,'spam_spammer_override': false,'spam_submissions_enabled': false,'spam_testing_mode': false,'wiki_samples': true,'wiki_spam_exempted': false,'wiki_spam_training': false
+    },
+    SWITCHES = {
+    'wiki_error_on_delete': false,'wiki_force_immediate_rendering': false,'enable_optimizely': false,'welcome_email': true,'application_ACAO': true,'store_revision_ips': true,'dumb_doc_urls': true
+    },
+    SAMPLES = {
+    
+    };
+  window.waffle = {
+    "flag_is_active": function waffle_flag(flag_name) {
+      
+      return !!FLAGS[flag_name];
+    },
+    "switch_is_active": function waffle_switch(switch_name) {
+      
+      return !!SWITCHES[switch_name];
+    },
+    "sample_is_active": function waffle_sample(sample_name) {
+      
+      return !!SAMPLES[sample_name];
+    },
+    "FLAGS": FLAGS,
+    "SWITCHES": SWITCHES,
+    "SAMPLES": SAMPLES
+  };
+})();
+
+        
+
+        // This needs to be set before ckeditor.js loads
+        window.CKEDITOR_BASEPATH = '/static/js/libs/ckeditor/build/ckeditor/';
+
+        // This represents the site configuration
+        win.mdn = {
+            // Properties and settings for CKEditor will go here
+            ckeditor: {},
+            // Feature test results and methods will be placed here
+            features: {},
+            // The path to static assets (images, CSS, JS) in MDN
+            staticPath: 'https://developer.cdn.mozilla.net/static/',
+            // Optimizely API
+            optimizely: win['optimizely'] || [],
+            // Site notifications
+            
+            notifications: [],
+            
+            // Wiki-specific settings will be placed here
+            wiki: {
+                autosuggestTitleUrl: '/en-US/docs/get-documents'
+            },
+            // Assets that need to be dynamically injected
+            assets: {
+                css: {
+                    'editor-content': ['https://developer.cdn.mozilla.net/static/build/styles/editor-content.ac1d619a5cc3.css',],
+                    'wiki-compat-tables': ['https://developer.cdn.mozilla.net/static/build/styles/wiki-compat-tables.f3a3bfce97a1.css',]
+                },
+                js: {
+                    'syntax-prism': ['https://developer.cdn.mozilla.net/static/build/js/syntax-prism.7a66ddfa68bf.js',],
+                    'wiki-compat-tables': ['https://developer.cdn.mozilla.net/static/build/js/wiki-compat-tables.14ce5dcb2c3d.js',]
+                }
+            }
+        };
+    })(this);
+</script>
+
+  
+
+  <ul id="nav-access">
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#document-main" id="skip-main">Skip to main content</a></li>
+    <li><a id="skip-language" href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#language">Select language</a></li>
+    
+      <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#q" id="skip-search">Skip to search</a></li>
+    
+  </ul>
+
+  <!-- Header -->
+  <header id="main-header"><div class="center">
+
+    <div id="tabzilla">
+        <a href="https://www.mozilla.org/" class="no-track">mozilla</a>
+    </div>
+
+    <div class="clear header-clear"></div>
+
+
+    <a href="https://developer.mozilla.org/en-US/" class="logo">Mozilla Developer Network</a>
+
+
+    <div id="nav-sec">
+        
+                  <ul>
+                  
+                      <li class="nav-tools"><a href="https://developer.mozilla.org/en-US/docs/MDN/Doc_status">Tools<i aria-hidden="true" class="icon-caret-down"></i></a>
+
+                      <div class="submenu submenu-cols-2 js-submenu" id="nav-tools-submenu">
+                        <div class="submenu-column">
+                          <div class="title">Contribute to MDN</div>
+                          <ul>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Getting_started">Get started</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Doc_status">Review or localize docs</a></li>
+                          </ul>
+                        </div><div class="submenu-column last">
+                          <div class="title">Site Tools</div>
+                          <ul>
+                            <li><a href="https://developer.mozilla.org/en-US/dashboards/revisions">Revision dashboard</a></li>
+                            <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Doc_status">Documentation status</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                   </li><li>
+    <div class="oauth-logged-in">
+        
+    <i aria-hidden="true" class="icon-github" title="Signed in with GitHub"></i>
+
+        <ul>
+            <li><a href="https://developer.mozilla.org/en-US/profiles/hippoish" class="oauth-logged-in-user">hippoish</a></li>
+            <li><a href="https://developer.mozilla.org/en-US/users/signout?next=/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations" class="oauth-logged-in-signout">Sign out</a></li>
+        </ul>
+    </div>
+</li>
+                </ul>
+        
+    </div>
+
+    <nav id="main-nav" role="navigation"><ul><li><a href="https://developer.mozilla.org/en-US/docs/Web">Web Platform<i aria-hidden="true" class="icon-caret-down"></i></a>
+
+        <div class="submenu submenu-cols-2 js-submenu" id="nav-platform-submenu">
+          <div class="submenu-column">
+            <div class="title">Technologies</div>
+            <ul>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML">HTML</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS">CSS</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript">JavaScript</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Graphics">Graphics</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/API">APIs / DOM</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Apps">Apps</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/MathML">MathML</a></li>
+            </ul>
+          </div><div class="submenu-column last">
+            <div class="title">References &amp; Guides</div>
+            <ul>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Learn">Learn the Web</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Tutorials">Tutorials</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Reference">References</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide">Developer Guides</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web/Accessibility">Accessibility</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Web">...more docs</a></li>
+            </ul>
+          </div>
+        </div>
+      </li><li><a href="https://developer.mozilla.org/en-US/docs/Zones">Mozilla Docs<i aria-hidden="true" class="icon-caret-down"></i></a>
+
+        <div class="submenu js-submenu" id="nav-zones-submenu">
+          <div class="submenu-column">
+            <ul>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons">Add-ons</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Firefox">Firefox</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/Marketplace">Firefox Marketplace</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Mozilla/B2G_OS">B2G OS</a></li>
+              <li><a href="https://developer.mozilla.org/en-US/docs/Persona">Persona</a></li>
+            </ul>
+          </div>
+        </div>
+      </li><li><a href="https://developer.mozilla.org/en-US/docs/Tools">Developer Tools</a></li><li><a href="https://developer.mozilla.org/en-US/docs/MDN/Feedback">Feedback<i aria-hidden="true" class="icon-caret-down"></i></a>
+
+        <div class="submenu js-submenu" id="nav-contact-submenu">
+          <div class="submenu-column">
+            <ul>
+                <li><a href="https://support.mozilla.org/">Get Firefox help<i aria-hidden="true" class="icon-external-link"></i></a></li>
+                <li><a href="http://stackoverflow.com/">Get web development help<i aria-hidden="true" class="icon-external-link"></i></a></li>
+            </ul>
+            <ul>
+              <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Community">Join the MDN community</a></li>
+              <li><a href="https://bugzilla.mozilla.org/form.doc">Report a content problem<i aria-hidden="true" class="icon-external-link"></i></a></li>
+              <li><a href="https://bugzilla.mozilla.org/form.mdn">Report a bug<i aria-hidden="true" class="icon-external-link"></i></a></li>
+            </ul>
+          </div>
+        </div>
+
+      </li><li class="nav-search-link"><a href="https://developer.mozilla.org/en-US/search" title="Search"><i aria-hidden="true" class="icon-search"></i></a></li><li class="main-nav-search"><form action="https://developer.mozilla.org/en-US/search" method="get" role="search">
+        <div class="search-wrap">
+          <label for="main-q" class="offscreen">Search</label>
+          <input type="search" id="main-q" name="q" placeholder="Search" data-value="" value="">
+          <span class="search-trigger"><i aria-hidden="true" class="icon-search"></i></span>&nbsp;
+          <button type="submit" class="offscreen">Search</button>
+        </div>
+      </form></li></ul></nav>
+  </div></header>
+
+  <!-- Content will go here -->
+  <main id="content"><div class="center clear">
+  
+
+   <!-- end is_zone -->
+
+
+    <div class="wiki-main-content" id="document-main" role="main"><div class="center">
+      
+      <div class="article-meta">
+        <!-- action buttons -->
+        
+
+  
+    
+  
+
+  
+    
+  
+
+  
+
+  <ul class="page-buttons" data-sticky="false">
+      
+      <li><button id="languages-menu" class="transparent" aria-haspopup="true" aria-owns="languages-menu-submenu" aria-expanded="false"><span>Languages</span><i aria-hidden="true" class="icon-language"></i></button>
+
+        <div class="submenu js-submenu" id="languages-menu-submenu">
+          <div class="submenu-column">
+            <ul id="translations">
+              
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/de/docs/Web/Guide/HTML/Canvas_Tutorial/Advanced_animations" title="Fortgeschrittene Animationen">Deutsch</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/fr/docs/Tutoriel_canvas/Advanced_animations" title="Animations avancées">Français</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/ja/docs/Web/Guide/HTML/Canvas_tutorial/Advanced_animations" title="Advanced animations">日本語</a></bdi></li>
+                
+                  <li><bdi><a rel="internal" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Canvas_API/Tutorial/Advanced_animations" title="高级动画">中文 (简体)</a></bdi></li>
+                
+              
+
+              
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$locales" rel="nofollow, noindex" id="translations-add">Add a translation</a></li>
+              
+            </ul>
+          </div>
+        </div>
+      </li>
+
+      <li class="page-buttons-edit"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$edit" class="button" data-optimizely-hook="button-edit-doc" id="edit-button">Edit<i aria-hidden="true" class="icon-pencil"></i></a></li>
+
+        
+        <li><button id="watch-menu" class="only-icon" aria-haspopup="true" aria-owns="watch-menu-submenu" aria-expanded="false"><span>Watch</span><i aria-hidden="true" class="icon-eye"></i></button>
+        <div class="submenu js-submenu" id="watch-menu-submenu">
+            <div class="submenu-column">
+                <div class="title">Watch</div>
+                <ul>
+                  <li class="page-watch">
+                    
+                    
+                    
+                    
+                    <form action="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$subscribe" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PHfeiCiZvnzDVw6Begy9YVL0C3iVE9Dd">
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" data-subscribe-status="Updating subscription status" data-subscribe-text="Subscribe to Advanced animations" data-unsubscribe-text="Unsubscribe from Advanced animations" data-subscribe-message="You are now subscribed to Advanced animations." data-unsubscribe-message="You have been unsubscribed from Advanced animations.">
+                        Subscribe to Advanced animations
+                        </a>
+                    </form>
+                  </li>
+
+                  
+                  <li class="page-watch">
+                    
+                    
+                    <form action="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$subscribe_to_tree" method="post">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PHfeiCiZvnzDVw6Begy9YVL0C3iVE9Dd">
+                        <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" data-subscribe-status="" data-subscribe-text="Subscribe to Advanced animations and all its sub-articles" data-unsubscribe-text="Unsubscribe from Advanced animations and all its sub-articles" data-subscribe-message="You are now subscribed to this article and all its sub-articles." data-unsubscribe-message="You have been unsubscribed from this article and all its sub-articles.">
+                        Subscribe to Advanced animations and all its sub-articles
+                        </a>
+                    </form>
+                  </li>
+
+                  
+
+                  </ul>
+
+                  
+                  
+            </div>
+        </div>
+        </li>
+        
+
+        <li><button id="advanced-menu" class="only-icon" aria-haspopup="true" aria-owns="advanced-menu-submenu" aria-expanded="false"><span>Advanced</span><i aria-hidden="true" class="icon-cog"></i></button>
+        <div class="submenu js-submenu" id="advanced-menu-submenu">
+          <!-- this page -->
+          <div class="submenu-column">
+            <div class="title">Advanced</div>
+            <ul>
+                <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$history" rel="nofollow, noindex">History</a></li>
+                
+                
+                
+                  <li><a href="https://developer.mozilla.org/en-US/docs/new?parent=134361" rel="nofollow, noindex">New sub-article</a></li>
+                  <li><a href="https://developer.mozilla.org/en-US/docs/new?clone=134361&amp;parent=79133" rel="nofollow, noindex">Clone this article</a></li>
+                
+                
+                
+
+
+                
+
+                
+                
+                
+                <li class="page-print"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" onclick="return window.print();">Print this article</a></li>
+            </ul>
+          </div>
+        </div>
+  </li></ul>
+
+        <!-- crumbs -->
+        
+  <nav class="crumbs" role="navigation"><ol xmlns:v="http://rdf.data-vocabulary.org/#" aria-label="breadcrumbs">
+    <li typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/en-US" rel="v:url" property="v:title">MDN</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/en-US/docs/Web" rel="v:url" property="v:title">Web technology for developers</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/en-US/docs/Web/API" rel="v:url" property="v:title">Web APIs</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API" rel="v:url" property="v:title">Canvas API</a></li>
+    
+      <li class="crumb" typeof="v:Breadcrumb"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial" rel="v:url" property="v:title">Canvas tutorial</a></li>
+    
+    <li class="crumb" typeof="v:Breadcrumb" property="v:title">Advanced animations</li>
+  </ol></nav>
+      </div>
+
+      <!-- heading -->
+      <div id="wiki-document-head" class="document-head">
+          <span class="from-search-previous-box">
+            <a class="button from-search-previous only-icon disabled" title="Previous Search Result" data-empty-title="No Previous Search Result"><i aria-hidden="true" class="icon-chevron-left"></i></a>
+          </span>
+          <span class="from-search-navigate-wrap">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" class="from-search-navigate"><span class="from-search-navigate-up"><i aria-hidden="true" class="icon-double-angle-up"></i></span><span class="from-search-navigate-down"><i aria-hidden="true" class="icon-double-angle-down"></i></span></a>
+          </span>
+          <div class="from-search-toc submenu">
+            <span class="title">Your Search Results</span>
+            <ol></ol>
+          </div>
+          <span class="from-search-next-box">
+            <a class="button from-search-next only-icon disabled" title="Next Search Result" data-empty-title="No Previous Search Result"><i aria-hidden="true" class="icon-chevron-right"></i></a>
+          </span>
+
+        
+        <div class="contributor-avatars" data-all-text="see all contributors" data-alternate-message="hide contributors">
+            <ul>
+            
+                <li class="shown">
+                <a href="https://developer.mozilla.org/en-US/profiles/lol768" title="View profile: lol768">
+                <img src="./Advanced animations - Web APIs _ MDN_files/d9e865940fbf667fb0de711f70f3eed9" class="avatar loaded" height="34" width="34" alt="lol768"></a>
+                </li>
+            
+                <li class="shown">
+                <a href="https://developer.mozilla.org/en-US/profiles/fscholz" title="View profile: fscholz">
+                <img src="./Advanced animations - Web APIs _ MDN_files/e24391c9174352988d819a9b9ea77c9e" class="avatar loaded" height="34" width="34" alt="fscholz"></a>
+                </li>
+            
+            </ul>
+        </div>
+        
+
+        <h1>Advanced animations</h1>
+
+      </div>
+      
+
+      <!-- start the main content container -->
+        <div id="wiki-column-container" class="wiki-right-present wiki-left-present">
+
+          <!-- content row with three strips -->
+          <div class="column-container column-container-reverse">
+
+            
+              <!-- TOC, approvals, etc -->
+              <div class="column-strip wiki-column" id="wiki-right">
+              
+              <!-- table of contents -->
+              <div id="toc" class="toc toggleable fixed" style="width: 261px; max-height: 618px; top: 0px;">
+                <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#toc" class="title toggler" data-open-icon="icon-plus" data-closed-icon="icon-minus" aria-haspopup="true">In This Article<i class="icon-minus"></i></a>
+                <ol class="toggle-container">
+                  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Drawing_a_ball" rel="internal">Drawing a ball</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Adding_velocity" rel="internal">Adding velocity</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Boundaries" rel="internal">Boundaries</a><ol><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#First_demo" rel="internal">First demo</a></li></ol></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Acceleration" rel="internal">Acceleration</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Trailing_effect" rel="internal">Trailing effect</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Adding_mouse_control" rel="internal">Adding mouse control</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#Breakout" rel="internal">Breakout</a></li><li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#See_also" rel="internal">See also</a>
+                </li></ol>
+              </div>
+              
+              </div>
+            
+
+            
+            
+              
+            
+
+            <!-- center: main article content -->
+            <div id="wiki-content" class="column-half wiki-column text-content">
+
+              
+                
+              
+
+              
+
+              
+                
+                
+                
+              
+              
+
+              <!-- just the article content -->
+              <article id="wikiArticle">
+                
+                  
+                    <div><section id="Quick_Links"><!-- --></section> <div class="prevnext" style="text-align: right;"> 
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations" style="float: left;">« Previous</a><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas">Next  »</a></p> 
+</div></div>
+
+<div class="summary">
+<p>In the last chapter we made some <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations">basic animations</a> and got to know ways to get things moving. In this part we will have a closer look at the motion itself and are going to add some physics to make our animations more advanced.</p>
+</div>
+
+<h2 id="Drawing_a_ball">Drawing a ball</h2>
+
+<p>We are going to use a ball for our animation studies, so let's first draw that ball onto the canvas. The following code will set us up.</p>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>As usual, we need a drawing context first. To draw the ball, we will create a <code>ball</code> object which contains properties and a <code>draw()</code> method to paint it on the canvas.</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Nothing special here, the ball is actually a simple circle and gets drawn with the help of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc" title="The CanvasRenderingContext2D.arc() method of the Canvas 2D API adds an arc to the path which is centered at (x, y) position with radius r starting at startAngle and ending at endAngle going in the given direction by anticlockwise (defaulting to clockwise)."><code>arc()</code></a> method.</p>
+
+<h2 id="Adding_velocity">Adding velocity</h2>
+
+<p>Now that we have a ball, we are ready to add a basic animation like we have learned in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations">last chapter</a> of this tutorial. Again, <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame" title="You should call this method whenever you&#39;re ready to update your animation onscreen. This will request that your animation function be called before the browser performs the next repaint. The number of callbacks is usually 60 times per second, but will generally match the display refresh rate in most web browsers as per W3C recommendation. The callback rate may be reduced to a lower rate when running in background tabs."><code>window.requestAnimationFrame()</code></a> helps us to control the animation. The ball gets moving by adding a velocity vector to the position. For each frame, we also <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clearRect" title="The CanvasRenderingContext2D.clearRect() method of the Canvas 2D API sets all pixels in the rectangle defined by starting point (x, y) and size (width, height) to transparent black, erasing any previously drawn content.">clear</a> the canvas to remove old circles from prior frames.</p>
+
+<pre class="brush: js; highlight:[8,9,24,25] line-numbers  language-js" data-line="8,9,24,25"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> raf<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  vx<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  vy<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseover'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mouseout"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  window<span class="token punctuation">.</span><span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>raf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code><div class=" line-highlight" style="top: 147px;"> 
+</div><div class=" line-highlight" style="top: 168px;"> 
+</div><div class=" line-highlight" style="top: 483px;"> 
+</div><div class=" line-highlight" style="top: 504px;"> 
+</div></pre>
+
+<h2 id="Boundaries">Boundaries</h2>
+
+<p>Without any boundary collision testing our ball runs out of the canvas quickly. We need to check if the <code>x</code> and <code>y</code> position of the ball is out of the canvas dimensions and invert the direction of the velocity vectors. To do so, we add the following checks to the <code>draw</code> method:</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>height <span class="token operator">||</span> ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ball<span class="token punctuation">.</span>vy <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>width <span class="token operator">||</span> ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ball<span class="token punctuation">.</span>vx <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h3 id="First_demo">First demo</h3>
+
+<p>Let's see how it looks in action so far. Move your mouse into the canvas to start the animation.</p>
+
+<div class="hidden">
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid</span><span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> raf<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  vx<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  vy<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>height <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vy <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>width <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vx <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseover'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mouseout"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  window<span class="token punctuation">.</span><span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>raf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</div>
+
+<p><iframe class="live-sample-frame" frameborder="0" height="310" src="./Advanced animations - Web APIs _ MDN_files/First_demo.html" width="610"></iframe></p>
+
+<h2 id="Acceleration">Acceleration</h2>
+
+<p>To make the motion more real, you can play with the velocity like this, for example:</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js">ball<span class="token punctuation">.</span>vy <span class="token operator">*</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">99</span><span class="token punctuation">;</span>
+ball<span class="token punctuation">.</span>vy <span class="token operator">+</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">25</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>This slows down the vertical velocity each frame, so that the ball will just bounce on the floor in the end.</p>
+
+<div class="hidden">
+<h6 id="Second_demo">Second demo</h6>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid</span><span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> raf<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  vx<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  vy<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span><span class="token function">clearRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span> canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>vy <span class="token operator">*</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">99</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>vy <span class="token operator">+</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">25</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>height <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vy <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>width <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vx <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseover'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mouseout"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  window<span class="token punctuation">.</span><span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>raf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</div>
+
+<p><iframe class="live-sample-frame" frameborder="0" height="310" src="./Advanced animations - Web APIs _ MDN_files/Second_demo.html" width="610"></iframe></p>
+
+<h2 id="Trailing_effect">Trailing effect</h2>
+
+<p>Until now we have made use of the <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clearRect" title="The CanvasRenderingContext2D.clearRect() method of the Canvas 2D API sets all pixels in the rectangle defined by starting point (x, y) and size (width, height) to transparent black, erasing any previously drawn content."><code>clearRect</code></a> method when clearing prior frames. If you replace this method with a semi-transparent <a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillRect" title="The CanvasRenderingContext2D.fillRect() method of the Canvas 2D API draws a filled rectangle at (x, y) position whose size is determined by width and height and whose style is determined by the fillStyle attribute."><code>fillRect</code></a>, you can easily create a trailing effect.</p>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js">ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'rgba(255,255,255,0.3)'</span><span class="token punctuation">;</span>
+ctx<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<div class="hidden">
+<h6 id="Third_demo">Third demo</h6>
+
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid</span><span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> raf<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  vx<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  vy<span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'rgba(255,255,255,0.3)'</span><span class="token punctuation">;</span>
+  ctx<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>vy <span class="token operator">*</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">99</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>vy <span class="token operator">+</span><span class="token operator">=</span> <span class="token punctuation">.</span><span class="token number">25</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>height <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vy <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>width <span class="token operator">||</span>
+      ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vx <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mouseover'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mouseout"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  window<span class="token punctuation">.</span><span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>raf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+</div>
+
+<p><iframe class="live-sample-frame" frameborder="0" height="310" src="./Advanced animations - Web APIs _ MDN_files/Third_demo.html" width="610"></iframe></p>
+
+<h2 id="Adding_mouse_control">Adding mouse control</h2>
+
+<p>To get some control over the ball, we can make it follow our mouse using the <code><a href="https://developer.mozilla.org/en-US/docs/Web/Reference/Events/mousemove">mousemove</a></code> event, for example. The <code><a href="https://developer.mozilla.org/en-US/docs/Web/Events/click">click</a></code> event releases the ball and lets it bounce again.</p>
+
+<div class="hidden">
+<pre class="brush: html line-numbers  language-html"><code class=" language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>canvas</span> <span class="token attr-name">id</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>canvas<span class="token punctuation">"</span></span><span class="token style-attr language-css"><span class="token attr-name"> <span class="token attr-name">style</span></span><span class="token punctuation">="</span><span class="token attr-value"><span class="token property">border</span><span class="token punctuation">:</span> <span class="token number">1</span>px solid</span><span class="token punctuation">"</span></span> <span class="token attr-name">width</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>600<span class="token punctuation">"</span></span> <span class="token attr-name">height</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>300<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>canvas</span><span class="token punctuation">&gt;</span></span><span class="line-numbers-rows"><span></span></span></code></pre>
+</div>
+
+<pre class="brush: js line-numbers  language-js"><code class=" language-js"><span class="token keyword">var</span> canvas <span class="token operator">=</span> document<span class="token punctuation">.</span><span class="token function">getElementById</span><span class="token punctuation">(</span><span class="token string">'canvas'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ctx <span class="token operator">=</span> canvas<span class="token punctuation">.</span><span class="token function">getContext</span><span class="token punctuation">(</span><span class="token string">'2d'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> raf<span class="token punctuation">;</span>
+<span class="token keyword">var</span> running <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ball <span class="token operator">=</span> <span class="token punctuation">{</span>
+  x<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  y<span class="token punctuation">:</span> <span class="token number">100</span><span class="token punctuation">,</span>
+  vx<span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">,</span>
+  vy<span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span>
+  radius<span class="token punctuation">:</span> <span class="token number">25</span><span class="token punctuation">,</span>
+  color<span class="token punctuation">:</span> <span class="token string">'blue'</span><span class="token punctuation">,</span>
+  draw<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ctx<span class="token punctuation">.</span><span class="token function">beginPath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">arc</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>x<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>y<span class="token punctuation">,</span> <span class="token keyword">this</span><span class="token punctuation">.</span>radius<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> Math<span class="token punctuation">.</span>PI<span class="token operator">*</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token keyword">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">closePath</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>color<span class="token punctuation">;</span>
+    ctx<span class="token punctuation">.</span><span class="token function">fill</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  ctx<span class="token punctuation">.</span>fillStyle <span class="token operator">=</span> <span class="token string">'rgba(255,255,255,0.3)'</span><span class="token punctuation">;</span>
+  ctx<span class="token punctuation">.</span><span class="token function">fillRect</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>width<span class="token punctuation">,</span>canvas<span class="token punctuation">.</span>height<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">function</span> <span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>x <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  ball<span class="token punctuation">.</span>y <span class="token operator">+</span><span class="token operator">=</span> ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>height <span class="token operator">||</span> ball<span class="token punctuation">.</span>y <span class="token operator">+</span> ball<span class="token punctuation">.</span>vy <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vy <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vy<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&gt;</span> canvas<span class="token punctuation">.</span>width <span class="token operator">||</span> ball<span class="token punctuation">.</span>x <span class="token operator">+</span> ball<span class="token punctuation">.</span>vx <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    ball<span class="token punctuation">.</span>vx <span class="token operator">=</span> <span class="token operator">-</span>ball<span class="token punctuation">.</span>vx<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+  raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">'mousemove'</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>running<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ball<span class="token punctuation">.</span>x <span class="token operator">=</span> e<span class="token punctuation">.</span>clientX<span class="token punctuation">;</span>
+    ball<span class="token punctuation">.</span>y <span class="token operator">=</span> e<span class="token punctuation">.</span>clientY<span class="token punctuation">;</span>
+    ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"click"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>running<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    raf <span class="token operator">=</span> window<span class="token punctuation">.</span><span class="token function">requestAnimationFrame</span><span class="token punctuation">(</span>draw<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    running <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+canvas<span class="token punctuation">.</span><span class="token function">addEventListener</span><span class="token punctuation">(</span><span class="token string">"mouseout"</span><span class="token punctuation">,</span><span class="token keyword">function</span><span class="token punctuation">(</span>e<span class="token punctuation">)</span><span class="token punctuation">{</span>
+  window<span class="token punctuation">.</span><span class="token function">cancelAnimationFrame</span><span class="token punctuation">(</span>raf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  running <span class="token operator">=</span> <span class="token keyword">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ball<span class="token punctuation">.</span><span class="token function">draw</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>Move the ball using your mouse and release it with a click.</p>
+
+<p><iframe class="live-sample-frame" frameborder="0" height="310" src="./Advanced animations - Web APIs _ MDN_files/Adding_mouse_control.html" width="610"></iframe></p>
+
+<h2 id="Breakout">Breakout</h2>
+
+<p>This short chapter only explains some techniques to create more advanced animations. There are many more! How about adding a paddle, some bricks, and turn this demo into a <a class="external external-icon" href="http://en.wikipedia.org/wiki/Breakout_%28video_game%29">Breakout</a> game? Check out our <a href="https://developer.mozilla.org/en-US/docs/Games">Game development</a> area for more gaming related articles.</p>
+
+<h2 id="See_also">See also</h2>
+
+<ul>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/requestAnimationFrame" title="You should call this method whenever you&#39;re ready to update your animation onscreen. This will request that your animation function be called before the browser performs the next repaint. The number of callbacks is usually 60 times per second, but will generally match the display refresh rate in most web browsers as per W3C recommendation. The callback rate may be reduced to a lower rate when running in background tabs."><code>window.requestAnimationFrame()</code></a></li>
+ <li><a href="https://developer.mozilla.org/en-US/docs/Games/Techniques/Efficient_animation_for_web_games">Efficient animation for web games</a></li>
+</ul>
+
+<p></p><div class="prevnext" style="text-align: right;"> 
+    <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations" style="float: left;">« Previous</a><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas">Next  »</a></p> 
+</div><p></p>
+                  
+                
+              </article>
+
+              
+
+                <!-- contributors -->
+                <div class="wiki-block contributors">
+                  <h2 class="offscreen">Document Tags and Contributors</h2>
+                  
+                  
+  <div class="tag-attach-list contributors-sub">
+    <i aria-hidden="true" class="icon-tags icon-fw"></i>
+    <strong>Tags:</strong>&nbsp;
+    <ul class="tags tags-small">
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Canvas">Canvas</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Graphics">Graphics</a></li>
+      
+        <li><a href="https://developer.mozilla.org/en-US/docs/tag/Tutorial">Tutorial</a></li>
+      
+    </ul>
+  </div>
+
+
+                  
+                    <div class="contributors-sub">
+                      <i aria-hidden="true" class="icon-group icon-fw"></i>&nbsp;<strong>Contributors to this page:</strong> 
+        <a href="https://developer.mozilla.org/en-US/profiles/lol768">lol768</a>, 
+    
+        <a href="https://developer.mozilla.org/en-US/profiles/fscholz">fscholz</a>
+    
+                    </div>
+                  
+
+                  
+                    <div class="contributors-sub">
+                      <i aria-hidden="true" class="icon-clock-o icon-fw"></i>&nbsp;<strong>Last updated by:</strong>
+                      <a href="https://developer.mozilla.org/en-US/profiles/lol768">lol768</a>,
+                      <time datetime="2015-05-15T09:00:34-07:00">May 15, 2015, 9:00:34 AM</time>
+                    </div>
+                  
+                </div>
+              
+            </div>
+
+            
+              <!-- quick links and zone subnav strip -->
+              <div id="wiki-left" class="column-strip wiki-column">
+
+              
+
+                
+
+                
+                  <!-- quick links -->
+                  
+  <div class="quick-links" id="quick-links">
+    <div class="title see-also">See also</div>
+     
+ <ol> 
+  <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"><strong>Canvas API</strong></a></li> 
+  <li data-default-state="open" class="toggleable current" data-closed=""><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-down"></i><strong>Canvas tutorial</strong></a> 
+   <ol class="toggle-container" aria-expanded="true" style="display: block;"> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_usage">Basic usage</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes">Drawing shapes</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Applying_styles_and_colors">Applying styles and colors</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_text">Drawing text</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images">Using images</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Transformations">Transformations</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Compositing">Compositing and clipping</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Basic_animations">Basic animations</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations">Advanced animations</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Pixel_manipulation_with_canvas">Pixel manipulation</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Hit_regions_and_accessibility">Hit regions and accessibility</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Optimizing_canvas">Optimizing the canvas</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Finale">Finale</a></li> 
+   </ol> 
+  </li> 
+  <li data-default-state="open" class="toggleable current" data-closed=""><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-down"></i><strong>Examples</strong></a> 
+   <ol class="toggle-container" aria-expanded="true" style="display: block;"> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/A_basic_ray-caster">A basic raycaster</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/Add-ons/Code_snippets/Canvas">Canvas code snippets</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Drawing_DOM_objects_into_a_canvas">Drawing DOM objects into a canvas</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Manipulating_video_using_canvas">Manipulating video using canvas</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/demos/tag/tech:canvas">Canvas demos in MDN Demo Studio</a></li> 
+   </ol> 
+  </li> 
+  <li data-default-state="open" class="toggleable current" data-closed=""><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-down"></i><strong>Interfaces</strong></a> 
+   <ol class="toggle-container" aria-expanded="true" style="display: block;"> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement" title="The HTMLCanvasElement interface provides properties and methods for manipulating the layout and presentation of canvas elements. The HTMLCanvasElement interface also inherits the properties and methods of the HTMLElement interface."><code>HTMLCanvasElement</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D" title="To get an object of this interface, call getContext() on a &lt;canvas&gt;, supplying &quot;2d&quot; as the argument:"><code>CanvasRenderingContext2D</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasGradient" title="The CanvasGradient interface represents an opaque object describing a gradient. It is returned by the methods CanvasRenderingContext2D.createLinearGradient() or CanvasRenderingContext2D.createRadialGradient()."><code>CanvasGradient</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/CanvasPattern" title="The CanvasPattern interface represents an opaque object describing a pattern, based on a image, a canvas or a video, created by the CanvasRenderingContext2D.createPattern() method."><code>CanvasPattern</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/ImageData" title="The ImageData interface represents the underlying pixel data of an area of a &lt;canvas&gt; element. It is created using the ImageData() constructor or creator methods on the CanvasRenderingContext2D object associated with a canvas: createImageData() and getImageData(). It can also be used to set a part of the canvas by using putImageData()."><code>ImageData</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/TextMetrics" title="The TextMetrics interface represents the dimension of a text in the canvas, as created by the CanvasRenderingContext2D.measureText() method."><code>TextMetrics</code></a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Path2D" title="The Path2D interface of the Canvas 2D API is used to declare paths that are then later used on CanvasRenderingContext2D objects. The path methods of the CanvasRenderingContext2D interface are present on this interface as well and are allowing you to create paths that you can retain and replay as required on a canvas."><code>Path2D</code></a> <span class="sidebar-icon"><span title="This is an experimental API that should not be used in production code."><i class="icon-beaker"> </i></span></span></li> 
+   </ol> 
+  </li> 
+  <li><strong><a href="https://developer.mozilla.org/en-US/docs/MDN">Documentation:</a></strong></li> 
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Useful lists</a> 
+   <ol class="toggle-container" style="display: none;"> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/tag/Canvas">Pages tagged "Canvas"</a></li> 
+   </ol> 
+  </li> 
+  <li data-default-state="closed" class="toggleable" data-closed="true"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations#" class="toggler" aria-haspopup="true"><i aria-hidden="true" class="icon-caret-right"></i>Contribute</a> 
+   <ol class="toggle-container" style="display: none;"> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/MDN/Doc_status/API/Canvas">Canvas doc status</a></li> 
+    <li><a href="https://developer.mozilla.org/en-US/docs/MDN">The MDN project</a></li> 
+   </ol> 
+  </li> 
+ </ol> 
+
+  </div>
+                
+
+                <!-- approvals -->
+                
+
+              
+
+              </div>
+            
+          </div>
+        </div>
+      </div>
+    </div> <!-- ends "main-content" -->
+
+  <menu type="context" id="edit-history-menu">
+    <menuitem data-action="/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$edit" label="Edit page"></menuitem>
+    <menuitem data-action="/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations$history" label="View page history"></menuitem>
+  </menu>
+
+  </div></main>
+
+  <!-- Footer -->
+  <footer><div class="center">
+    <div class="column-container">
+      <div class="column-main">
+        
+        <div class="contentinfo">
+          <p>© 2005-2016 Mozilla Developer Network and individual contributors.</p> <p>Content is available under <a href="https://developer.mozilla.org/en-US/docs/MDN/About#Copyrights_and_licenses">these licenses</a>.</p>
+          <ul>
+            <li><a href="https://developer.mozilla.org/docs/MDN/About">About MDN</a></li>
+            <li><a href="https://www.mozilla.org/about/legal/terms/mozilla">Terms</a></li>
+            <li><a href="https://www.mozilla.org/privacy/websites/">Privacy</a></li>
+            <li><a href="https://www.mozilla.org/privacy/websites/#cookies">Cookies</a></li>
+            <li><a href="https://github.com/mozilla/kuma">Contribute to the code</a></li>
+          </ul>
+        <p></p>
+        
+        </div>
+      </div>
+      <div class="column-strip">
+        
+          
+  
+    <form class="languages go" method="get" action="https://developer.mozilla.org/en-US/docs/Web">
+      <label for="language">Other languages:</label>
+      <select id="language" class="wiki-l10n" name="next" dir="ltr">
+        <option value="/en-US/docs/Web/API/Canvas_API/Tutorial/Advanced_animations" selected="">
+          English (US)
+        </option>
+        
+          <option value="/de/docs/Web/Guide/HTML/Canvas_Tutorial/Advanced_animations">
+            Deutsch
+          </option>
+          <option value="/fr/docs/Tutoriel_canvas/Advanced_animations">
+            Français
+          </option>
+          <option value="/ja/docs/Web/Guide/HTML/Canvas_tutorial/Advanced_animations">
+            日本語
+          </option>
+          <option value="/zh-CN/docs/Web/API/Canvas_API/Tutorial/Advanced_animations">
+            中文 (简体)
+          </option>
+      </select>
+      <noscript>&lt;button type="submit"&gt;Go&lt;/button&gt;</noscript>
+    </form>
+  
+
+        
+      </div>
+    </div>
+  </div></footer>
+
+  <!-- site js -->
+  
+    
+    <!--[if lte IE 8]><script type="text/javascript" src="https://developer.cdn.mozilla.net/static/build/js/selectivizr.091e18cf669b.js" charset="utf-8"></script><![endif]-->
+
+    <form id="_persona_login" method="post" action="https://developer.mozilla.org/users/persona/signin" data-csrf-token-url="/users/persona/csrf" data-request="{&quot;siteName&quot;: &quot;Mozilla Developer Network&quot;, &quot;siteLogo&quot;: &quot;/static/img/opengraph-logo.png&quot;}" data-persona-script="https://login.persona.org/include.js">
+  <input type="hidden" name="csrfmiddlewaretoken" value="" id="_persona_csrf_token">
+  <input type="hidden" name="next" value="" id="_persona_next_url">
+  <input type="hidden" name="process" value="" id="_persona_process">
+  <input type="hidden" name="assertion" id="_persona_assertion">
+</form>
+
+
+    <script type="text/javascript" src="./Advanced animations - Web APIs _ MDN_files/main.a7b27a25fb9c.js" charset="utf-8"></script>
+
+      <script>
+        if(window.mdn && mdn.analytics) mdn.analytics.trackOutboundLinks();
+      </script>
+
+    
+    <script type="text/javascript" src="./Advanced animations - Web APIs _ MDN_files/javascript.b28203373cc1.js"></script>
+  
+    <script async="" type="text/javascript" src="./Advanced animations - Web APIs _ MDN_files/wiki.28ae780f6173.js" charset="utf-8"></script>
+
+
+  
+
+  <script async="" type="text/javascript" src="./Advanced animations - Web APIs _ MDN_files/helpfulness.320352cf4b63.js" charset="utf-8"></script>
+
+  
+
+
+
+</body></html>
