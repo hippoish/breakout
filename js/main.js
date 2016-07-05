@@ -1,9 +1,9 @@
-console.log('javascript linked')
+// console.log('javascript linked')
 
 // make scoreboard display divs
-var $scoreBoard = $('<h3 id="score">Bricks Broken This Game: 0</h3>');
-$('body').prepend($scoreBoard);
-var $gamesWon = $('<h3 id="game-count">Games Won: 0</h3>');
+var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
+$('body').prepend($gameScore);
+var $gamesWon = $('<h3 class="score" id="game-count">Games Won: 0</h3>');
 $('body').prepend($gamesWon);
 
 // score variables:
@@ -29,6 +29,7 @@ $('#board').click(clickLaunchHandler);
 var ball = {
   xSpeed: ballSpeed,
   ySpeed: -ballSpeed,
+  xySpeed: Math.sqrt(Math.pow(ballSpeed, 2) + Math.pow(-ballSpeed, 2)),
   r: ballRadius,
   x: canvas.width / 2,
   y: canvas.height - 60,
@@ -44,9 +45,9 @@ var leftPressed = false;
 var paddleWidth = 75;
 var paddleHeight = 10;
 var paddleSpeed = 7;
+// to limit the influence of where the ball hits the paddle on the ball's new trajectory: number between 0 and 1: shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
+var bounceInfluence = 0.5;
 // allow the user to control the paddle with the keyboard
-//document.addEventListener('keydown', keyDownHandler, false);
-//document.addEventListener('keyup', keyUpHandler, false);
 $(document).keydown(keyDownHandler);
 $(document).keyup(keyUpHandler);
 
@@ -66,10 +67,10 @@ var paddle = {
 // brick dimensions could depend on how many the user wants, ie get bigger when there are fewer so they take up an adequate portion of the screen; would involve using ranges to decide how big to make bricks depending which range the requests fall in
 var brickWidth = 80;
 var brickHeight = 30;
-var brickPadding = 4;
+var brickPadding = 6;
 // might get user input for rows and columns, but will have to set limits
-var numRows = 2;
-var numColumns = 3;
+var numRows = 1;
+var numColumns = 2;
 // have to have colors for the max # of rows you're allowing
 var brickColors = ['hotPink', 'mediumVioletRed', 'lightSeaGreen', 'teal', 'steelBlue', 'midnightBlue', 'plum', '#8E4585', 'purple'];
 // an array containing numRows arrays, each containing numColumns objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
@@ -167,10 +168,8 @@ function collisionDetection() {
           ball.ySpeed = -ball.ySpeed;
           thisBrick.status = 0;
           score++;
-          // document.getElementById('score').innerHTML = 'Bricks Broken This Game: ' + score;
-          $scoreBoard.html(function() {
-            'Bricks Broken This Game: ' + score;
-          })
+          // document.getElementById('game-score').innerHTML = 'Bricks Broken This Game: ' + score;
+          $gameScore.text('Bricks Broken This Game: ' + score);
           // check if all bricks are broken
           if (score === numRows * numColumns) {
             wins++;
@@ -202,8 +201,12 @@ function draw() {
       ball.ySpeed = -ball.ySpeed;
     } else if (ball.y + ball.ySpeed + ball.r > paddle.y) {
       if (ball.x > paddle.x && ball.x < paddle.x + paddle.w) {
-        ball.ySpeed = -ball.ySpeed;
-        // add more conditions so that the ball trajectory will change differently if it hits different parts of the paddle
+        // determine where the ball bounced relative to the center of the paddle as a number between -1 and 1
+        var paddleCenter = paddle.x + paddle.w / 2;
+        var ballRelX = (ball.x - paddleCenter)/(0.5 * paddle.w)
+        // determine a new xSpeed for the ball based on the overall speed, the relative x position, and an influence factor, which is a constant between 0 and 1 that says how much influence the bounce position will have on the xSpeed
+        ball.xSpeed = ball.xySpeed * ballRelX * bounceInfluence;
+        ball.ySpeed = -Math.sqrt((Math.pow(ball.xySpeed, 2) - Math.pow(ball.xSpeed, 2)));
       } else {
         lives--;
         checkLives();
@@ -253,34 +256,7 @@ function makeRemainingLives() {
   }
 }
 
-// ball will launch when space bar is pressed, and will move in both the x and
-// y directions. when it hits a wall, it will change x direction, when it hits
-// a brick the brick will disappear and the ball will change y directions
-
-// var to store user input
-// Handle keyboard controls
-// First user input should be listening for space to be pressed and then launch the ball
-$('#ball').keypress(function() {
-  // start ball moving in the -y direction
-  // $('#ball')
-})
-// var keysDown = {};
-//
-// addEventListener("keydown", function (e) {
-// 	keysDown[e.keyCode] = true;
-// }, false);
-//
-// addEventListener("keyup", function (e) {
-// 	delete keysDown[e.keyCode];
-// }, false);
-
-// horizontal position of paddle will change when the left and right arrow keys are pressed
-
 // if top of ball reaches a place where there is the bottom of a brick, that brick will disappear and the ball will change y directions and the brick count (score) will increment
-// potential ways to hide ball: use display: hidden property; set opacity or a to 0; remove the element altogether; set it to match bg color and have no border; display: none; maybe draw a new white rectangle over it to cover it up? and keep an array of the hit/covered block locations instead of the existing blocks?
-// maybe keep track of how many bricks are left in a row so that you know when to stop paying attention to that position on the board w/ regards to the ball hitting
-
-// i think i'll somehow have to keep track of which bricks are already broken so i know not to have the ball react in those spots anymore. will that mean i'll have to remove the elements completely rather than just hiding them?  or just keep track of which ones not to react to? or because they are shapes in canvas will this be totally different?!
 
 // when the ball goes below the paddle without hitting it, a life is lost and the paddle and ball reset.
 // checkLives();
@@ -290,8 +266,7 @@ function checkLives(){
   if (!lives) {
     gameOver();
     ball.new = true;
-    // this auto reloads; probably also want to set a button for resetting the board instead
-    // document.location.reload();
+    // want to add a button for reseting the board to start a new game
   } else {
     ball.x = canvas.width/2;
     ball.y = canvas.height-60;
@@ -303,12 +278,15 @@ function checkLives(){
 }
 
 function youWin() {
+  // increment game win counter
+  wins++;
   // display win message
   ctx.font = '30px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
   ctx.fillText('You Win!!!', canvas.width / 2, canvas.height / 2);
-  cancelAnimationFrame();
+  ball.new = true;
+  // window.cancelAnimationFrame(drawReq);
 }
 
 function gameOver() {
@@ -317,11 +295,11 @@ function gameOver() {
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
-  cancelAnimationFrame();
+  ball.new = true;
+  // window.cancelAnimationFrame(drawReq);
 }
   // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
   // reset();
-
 
 // function for reseting board
 // function reset() {
