@@ -23,7 +23,8 @@ canvas.height = height;
 // ball variables:
 var ballRadius = 10;
 var ballSpeed = 2;
-// $('document').keypress(spacebarHandler);
+$(document).keypress(spacebarLaunchHandler);
+$('#board').click(clickLaunchHandler);
 // create ball object
 var ball = {
   xSpeed: ballSpeed,
@@ -116,11 +117,15 @@ function makeBall() {
 }
 
 // launch ball on spacebar press
-// function spacebarHandler(event) {
-//   if (event.keyCode === 32) {
-//     ball.new = false;
-//   }
-// }
+function spacebarLaunchHandler(event) {
+  if (event.keyCode === 32) {
+    ball.new = false;
+  }
+}
+// launch ball on mouse click
+function clickLaunchHandler() {
+  ball.new = false;
+}
 
 // paddle
 function makePaddle() {
@@ -169,14 +174,16 @@ function collisionDetection() {
           // check if all bricks are broken
           if (score === numRows * numColumns) {
             wins++;
-            alert('You Win, Congratulations!');
-            document.location.reload();
+            youWin();
+            //document.location.reload();
           }
         }
       }
     }
   }
 }
+
+var drawReq;
 
 function draw() {
   ctx.clearRect(0,0,canvas.width, canvas.height)
@@ -187,7 +194,7 @@ function draw() {
   collisionDetection();
 
   // bounce off the side walls
-  // if (ball.new === false) {
+  if (!ball.new) {
     if (ball.x + ball.xSpeed + ball.r > canvas.width || ball.x + ball.xSpeed - ball.r < 0) {
       ball.xSpeed = -ball.xSpeed;
     }
@@ -196,24 +203,24 @@ function draw() {
     } else if (ball.y + ball.ySpeed + ball.r > paddle.y) {
       if (ball.x > paddle.x && ball.x < paddle.x + paddle.w) {
         ball.ySpeed = -ball.ySpeed;
+        // add more conditions so that the ball trajectory will change differently if it hits different parts of the paddle
       } else {
         lives--;
         checkLives();
-        // ball.new = true;
       }
     }
-  // }
 
-  if (rightPressed && paddle.x + paddle.w < canvas.width) {
-    paddle.x += paddleSpeed;
-  } else if (leftPressed && paddle.x > 0) {
-    paddle.x -= paddleSpeed;
+    if (rightPressed && paddle.x + paddle.w < canvas.width) {
+      paddle.x += paddleSpeed;
+    } else if (leftPressed && paddle.x > 0) {
+      paddle.x -= paddleSpeed;
+    }
+
+    ball.x += ball.xSpeed;
+    ball.y += ball.ySpeed;
   }
 
-  ball.x += ball.xSpeed;
-  ball.y += ball.ySpeed;
-
-  requestAnimationFrame(draw);
+  drawReq = requestAnimationFrame(draw);
 }
 
 // control the paddle with the mouse
@@ -281,10 +288,8 @@ $('#ball').keypress(function() {
 // paddle ball and bricks will reset when all the bricks are broken or lives are out
 function checkLives(){
   if (!lives) {
-    // display game over message
-    ctx.font = '50px Helvetica';
-    ctx.fillStyle = '#000000';
-    ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+    gameOver();
+    ball.new = true;
     // this auto reloads; probably also want to set a button for resetting the board instead
     // document.location.reload();
   } else {
@@ -292,8 +297,27 @@ function checkLives(){
     ball.y = canvas.height-60;
     ball.xSpeed = ballSpeed;
     ball.ySpeed = -ballSpeed;
+    ball.new = true;
     paddle.x = (canvas.width - paddle.w) / 2;
   }
+}
+
+function youWin() {
+  // display win message
+  ctx.font = '30px Helvetica';
+  ctx.fillStyle = '#000000';
+  ctx.textAlign = 'center'
+  ctx.fillText('You Win!!!', canvas.width / 2, canvas.height / 2);
+  cancelAnimationFrame();
+}
+
+function gameOver() {
+  // display game over message
+  ctx.font = '30px Helvetica';
+  ctx.fillStyle = '#000000';
+  ctx.textAlign = 'center'
+  ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+  cancelAnimationFrame();
 }
   // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
   // reset();
