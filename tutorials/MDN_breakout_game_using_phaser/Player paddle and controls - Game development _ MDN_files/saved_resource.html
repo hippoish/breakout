@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://jsfiddle.net/end3r/ogqza0ye/embedded/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    
+    <meta http-equiv="edit-Type" edit="text/html; charset=utf-8">
+
+    
+      <meta name="robots" content="index, follow">
+      <meta name="googlebot" content="index, follow">
+
+      <script async="" src="./analytics.js"></script><script type="text/javascript" src="./highlight.pack.js"></script>
+
+      <script type="text/javascript" src="./embed.js"></script>
+
+
+      
+        <link rel="stylesheet" type="text/css" href="./embed-light.css">
+
+      
+
+      <script type="text/javascript">
+        var height;
+        var force_height = null;
+        var slug = "ogqza0ye";
+        var show_src = "//fiddle.jshell.net/end3r/ogqza0ye/show/light/";
+        var resize_element_counter = 0;
+        var shell_edit_url = '/end3r/ogqza0ye/light/';
+
+        
+      </script>
+    
+
+    <link href="./css" rel="stylesheet" type="text/css">
+
+    <style type="text/css" media="screen">
+      
+      
+      
+      
+    </style>
+
+  </head>
+  <body>
+    <div id="wrapper">
+      
+        <header>
+          <h1><a href="https://jsfiddle.net/end3r/ogqza0ye/?utm_source=website&amp;utm_medium=embed&amp;utm_campaign=ogqza0ye" target="_blank">Edit in JSFiddle</a></h1>
+          <!-- <h1><a href="/end3r/ogqza0ye/light/" target="_blank">Edit in JSFiddle</a></h1> -->
+          <div id="actions">
+            <ul class="normalRes">
+              
+                <li class="active">
+                  <a data-trigger-type="js" href="https://jsfiddle.net/end3r/ogqza0ye/embedded/#JavaScript">JavaScript</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="html" href="https://jsfiddle.net/end3r/ogqza0ye/embedded/#HTML">HTML</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="css" href="https://jsfiddle.net/end3r/ogqza0ye/embedded/#CSS">CSS</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="resources" href="https://jsfiddle.net/end3r/ogqza0ye/embedded/#Resources">Resources</a>
+                </li>
+              
+                <li>
+                  <a data-trigger-type="result" href="https://jsfiddle.net/end3r/ogqza0ye/embedded/#Result">Result</a>
+                </li>
+              
+            </ul>
+            <div class="hl" style="left: 0px; width: 83.5px;"></div>
+          </div>
+        </header>
+
+        <div id="tabs">
+          
+            
+              
+                <pre class="tCont  active hljs javascript"><span class="hljs-keyword">var</span> game = <span class="hljs-keyword">new</span> Phaser.Game(<span class="hljs-number">480</span>, <span class="hljs-number">320</span>, Phaser.AUTO, <span class="hljs-literal">null</span>, {preload: preload, create: create, update: update});
+
+<span class="hljs-keyword">var</span> ball;
+<span class="hljs-keyword">var</span> paddle;
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">preload</span>(<span class="hljs-params"></span>) </span>{
+    handleRemoteImagesOnJSFiddle();
+    game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+    game.scale.pageAlignHorizontally = <span class="hljs-literal">true</span>;
+    game.scale.pageAlignVertically = <span class="hljs-literal">true</span>;
+    game.stage.backgroundColor = <span class="hljs-string">'#eee'</span>;
+    game.load.image(<span class="hljs-string">'ball'</span>, <span class="hljs-string">'img/ball.png'</span>);
+    game.load.image(<span class="hljs-string">'paddle'</span>, <span class="hljs-string">'img/paddle.png'</span>);
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span>(<span class="hljs-params"></span>) </span>{
+    game.physics.startSystem(Phaser.Physics.ARCADE);
+    ball = game.add.sprite(game.world.width*<span class="hljs-number">0.5</span>, game.world.height<span class="hljs-number">-25</span>, <span class="hljs-string">'ball'</span>);
+    ball.anchor.set(<span class="hljs-number">0.5</span>);
+    game.physics.enable(ball, Phaser.Physics.ARCADE);
+    ball.body.velocity.set(<span class="hljs-number">150</span>, <span class="hljs-number">-150</span>);
+    ball.body.collideWorldBounds = <span class="hljs-literal">true</span>;
+    ball.body.bounce.set(<span class="hljs-number">1</span>);
+
+    paddle = game.add.sprite(game.world.width*<span class="hljs-number">0.5</span>, game.world.height<span class="hljs-number">-5</span>, <span class="hljs-string">'paddle'</span>);
+    paddle.anchor.set(<span class="hljs-number">0.5</span>,<span class="hljs-number">1</span>);
+    game.physics.enable(paddle, Phaser.Physics.ARCADE);
+    paddle.body.immovable = <span class="hljs-literal">true</span>;
+}
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">update</span>(<span class="hljs-params"></span>) </span>{
+    game.physics.arcade.collide(ball, paddle);
+    paddle.x = game.input.x || game.world.width*<span class="hljs-number">0.5</span>;
+}
+
+<span class="hljs-comment">// this function (needed only on JSFiddle) take care of loading the images from the remote server</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">handleRemoteImagesOnJSFiddle</span>(<span class="hljs-params"></span>) </span>{
+	game.load.baseURL = <span class="hljs-string">'https://end3r.github.io/Gamedev-Phaser-Content-Kit/demos/'</span>;
+	game.load.crossOrigin = <span class="hljs-string">'anonymous'</span>;
+}</pre>
+              
+            
+          
+            
+              
+                <pre class="tCont hljs"></pre>
+              
+            
+          
+            
+              
+                <pre class="tCont hljs css">* { <span class="hljs-attribute">padding</span>: <span class="hljs-number">0</span>; <span class="hljs-attribute">margin</span>: <span class="hljs-number">0</span>; }</pre>
+              
+            
+          
+            
+              <div class="resources tCont" id="resources">
+                <h3>External resources loaded into this fiddle:</h3>
+                <ul>
+                  
+                    <li><a href="https://end3r.github.io/Gamedev-Phaser-Content-Kit/demos/js/phaser.2.4.2.min.js" target="_blank">phaser.2.4.2.min.js</a></li>
+                  
+                </ul>
+              </div>
+              
+            
+          
+            <div class="tCont result" id="result"></div>
+              
+            
+          
+        </div>
+      
+    </div>
+
+    
+      <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  var GA_LOCAL_STORAGE_KEY = 'ga:clientId';
+  if (window.localStorage) {
+    ga('create', 'UA-366077-19', {
+      'storage': 'none',
+      'clientId': localStorage.getItem(GA_LOCAL_STORAGE_KEY)
+    });
+    ga(function(tracker) {
+      localStorage.setItem(GA_LOCAL_STORAGE_KEY, tracker.get('clientId'));
+    });
+    ga('send', 'pageview', '/[user]/[fiddle]/embedded/'); // where `url_structure` is for example `/[user]/[fiddle]/[revision]/embedded/js,css/`
+  }
+</script>
+
+      
+    
+
+  
+
+</body></html>
