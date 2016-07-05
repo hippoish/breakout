@@ -22,7 +22,7 @@ canvas.height = height;
 
 // ball variables:
 var ballRadius = 10;
-var ballSpeed = 2;
+var ballSpeed = 3;
 $(document).keypress(spacebarLaunchHandler);
 $('#board').click(clickLaunchHandler);
 // create ball object
@@ -167,16 +167,15 @@ function collisionDetection() {
     for (var j = 0; j < numColumns; j++) {
       var thisBrick = allBricks[i][j];
       if (thisBrick.status === 1) {
-        if (ball.x > thisBrick.x && ball.x < thisBrick.x + brick.w && ball.y > thisBrick.y && ball.y < thisBrick.y + brick.h) {
+        if (ball.x + ball.r > thisBrick.x  && ball.x - ball.r < thisBrick.x + brick.w && ball.y + ball.r > thisBrick.y && ball.y - ball.r < thisBrick.y + brick.h) {
           ball.ySpeed = -ball.ySpeed;
           thisBrick.status = 0;
           score++;
-          // document.getElementById('game-score').innerHTML = 'Bricks Broken This Game: ' + score;
           $gameScore.text('Bricks Broken This Game: ' + score);
           // check if all bricks are broken
           if (score === numRows * numColumns) {
             youWin();
-            //document.location.reload();
+            // document.location.reload();
           }
         }
       }
@@ -208,6 +207,7 @@ function draw() {
         var ballRelX = (ball.x - paddleCenter)/(0.5 * paddle.w)
         // new xSpeed for ball based on overall speed, relative x position, and influence factor
         ball.xSpeed = ball.xySpeed * ballRelX * bounceInfluence;
+        // new ySpeed based on constant overall speed and new xSpeed
         ball.ySpeed = -Math.sqrt((Math.pow(ball.xySpeed, 2) - Math.pow(ball.xSpeed, 2)));
       } else {
         lives--;
@@ -300,6 +300,7 @@ function gameOver() {
   ctx.textAlign = 'center'
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
   ball.new = true;
+  document.location.reload();
   // window.cancelAnimationFrame(drawReq);
 }
   // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
