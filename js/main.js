@@ -45,7 +45,7 @@ var leftPressed = false;
 var paddleWidth = 75;
 var paddleHeight = 10;
 var paddleSpeed = 7;
-// to limit the influence of where the ball hits the paddle on the ball's new trajectory: number between 0 and 1: shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
+// constant to limit the influence of where the ball hits the paddle on the ball's new xSpeed/trajectory: number between 0 and 1; shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
 var bounceInfluence = 0.5;
 // allow the user to control the paddle with the keyboard
 $(document).keydown(keyDownHandler);
@@ -69,8 +69,8 @@ var brickWidth = 80;
 var brickHeight = 30;
 var brickPadding = 6;
 // might get user input for rows and columns, but will have to set limits
-var numRows = 1;
-var numColumns = 2;
+var numRows = 2;
+var numColumns = 4;
 // have to have colors for the max # of rows you're allowing
 var brickColors = ['hotPink', 'mediumVioletRed', 'lightSeaGreen', 'teal', 'steelBlue', 'midnightBlue', 'plum', '#8E4585', 'purple'];
 // an array containing numRows arrays, each containing numColumns objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
@@ -110,6 +110,9 @@ function keyUpHandler(event) {
 
 // ball
 function makeBall() {
+  if (ball.new) {
+    ball.x = paddle.x + paddle.w / 2;
+  }
   ctx.beginPath();
   ctx.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
   ctx.fillStyle = ball.color;
@@ -140,13 +143,13 @@ function makePaddle() {
 // could i build different shaped boards for different levels by using switch statements? ie, a case for the first row, second row, third row, etc that all build different numbers of bricks?
 // function to set a new board
 function makeBricks() {
-  brick.x = (canvas.width - (numColumns * (brick.w + brickPadding))) / 2,
-  brick.y = brick.h
+  // brick.x = (canvas.width - (numColumns * (brick.w + brickPadding))) / 2,
+  // brick.y = brick.h
   for (var i = 0; i < numRows; i++) {
     for (var j = 0; j < numColumns; j++) {
       if (allBricks[i][j].status === 1) {
-        var brickX = (j * (brick.w + brickPadding)) + brick.w;
-        var brickY = (i * (brick.h + brickPadding)) + brick.h;
+        var brickX = (canvas.width - (numColumns * (brick.w + brickPadding))) / 2 + j * (brick.w + brickPadding);
+        var brickY = brick.h + (i * (brick.h + brickPadding));
         allBricks[i][j].x = brickX;
         allBricks[i][j].y = brickY;
         ctx.beginPath();
@@ -172,7 +175,6 @@ function collisionDetection() {
           $gameScore.text('Bricks Broken This Game: ' + score);
           // check if all bricks are broken
           if (score === numRows * numColumns) {
-            wins++;
             youWin();
             //document.location.reload();
           }
@@ -204,7 +206,7 @@ function draw() {
         // determine where the ball bounced relative to the center of the paddle as a number between -1 and 1
         var paddleCenter = paddle.x + paddle.w / 2;
         var ballRelX = (ball.x - paddleCenter)/(0.5 * paddle.w)
-        // determine a new xSpeed for the ball based on the overall speed, the relative x position, and an influence factor, which is a constant between 0 and 1 that says how much influence the bounce position will have on the xSpeed
+        // new xSpeed for ball based on overall speed, relative x position, and influence factor
         ball.xSpeed = ball.xySpeed * ballRelX * bounceInfluence;
         ball.ySpeed = -Math.sqrt((Math.pow(ball.xySpeed, 2) - Math.pow(ball.xSpeed, 2)));
       } else {
@@ -278,14 +280,16 @@ function checkLives(){
 }
 
 function youWin() {
-  // increment game win counter
+  // increment game win counter and display it
   wins++;
+  $gamesWon.text('Games Won: ' + wins);
   // display win message
   ctx.font = '30px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
   ctx.fillText('You Win!!!', canvas.width / 2, canvas.height / 2);
   ball.new = true;
+
   // window.cancelAnimationFrame(drawReq);
 }
 
