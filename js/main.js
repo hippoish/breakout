@@ -73,8 +73,8 @@ var brickWidth = 80;
 var brickHeight = 30;
 var brickPadding = 6;
 // might get user input for rows and columns, but will have to set limits
-var numRows = 2;
-var numColumns = 4;
+var numRows = 1;
+var numColumns = 2;
 // have to have colors for the max # of rows you're allowing
 var brickColors = ['hotPink', 'mediumVioletRed', 'lightSeaGreen', 'teal', 'steelBlue', 'midnightBlue', 'plum', '#8E4585', 'purple'];
 // an array containing numRows arrays, each containing numColumns objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
@@ -275,7 +275,8 @@ function makeRemainingLives() {
   // add lives counter to canvas
   ctx.font = '20px Helvetica';
   ctx.fillStyle = '#000000';
-  ctx.fillText('Lives remaining: ', 20, canvas.height - 15);
+  ctx.textAlign = 'center';
+  ctx.fillText('Lives remaining: ', 100, canvas.height - 15);
 
   for (var i = 0; i < lives - 1; i++) {
     ctx.fillStyle = '#aaaaaa';
