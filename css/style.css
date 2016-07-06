@@ -1,6 +1,21 @@
 document {
   padding: 0;
-  margin: 0
+  margin: 0;
+}
+
+.score {
+display: block;
+margin: auto;
+}
+
+/*#game > * {
+  position: absolute;
+}*/
+
+#game {
+  height: 412;
+  width: 400;
+  margin: auto;
 }
 
 #board {
@@ -9,7 +24,10 @@ document {
   margin: auto;
 }
 
-.score {
-  display: block;
+#game-over {
+  text-align: center;
   margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
 }

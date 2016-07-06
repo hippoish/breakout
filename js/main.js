@@ -1,15 +1,18 @@
 // console.log('javascript linked')
 
 // make scoreboard display divs
-var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
-$('body').prepend($gameScore);
+// var $newGameButton = $('<button id="new-game">New Game</button>');
+// $('body').prepend($newGameButton);
 var $gamesWon = $('<h3 class="score" id="game-count">Games Won: 0</h3>');
 $('body').prepend($gamesWon);
+var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
+$('body').prepend($gameScore);
 
 // score variables:
 var score = 0;
 var wins = 0;
-var lives = 3;
+var lives = 1;
+var isGameOver = false;
 // canvas variables:
 var width = 400;
 var height = 412;
@@ -172,10 +175,9 @@ function collisionDetection() {
           thisBrick.status = 0;
           score++;
           $gameScore.text('Bricks Broken This Game: ' + score);
-          // check if all bricks are broken
+          // check if all bricks are broken, and if so, run the win function
           if (score === numRows * numColumns) {
             youWin();
-            // document.location.reload();
           }
         }
       }
@@ -224,8 +226,9 @@ function draw() {
     ball.x += ball.xSpeed;
     ball.y += ball.ySpeed;
   }
-
-  drawReq = requestAnimationFrame(draw);
+  if (!isGameOver) {
+    drawReq = requestAnimationFrame(draw);
+  }
 }
 
 // control the paddle with the mouse
@@ -258,16 +261,10 @@ function makeRemainingLives() {
   }
 }
 
-// if top of ball reaches a place where there is the bottom of a brick, that brick will disappear and the ball will change y directions and the brick count (score) will increment
-
-// when the ball goes below the paddle without hitting it, a life is lost and the paddle and ball reset.
-// checkLives();
-
 // paddle ball and bricks will reset when all the bricks are broken or lives are out
 function checkLives(){
   if (!lives) {
     gameOver();
-    ball.new = true;
     // want to add a button for reseting the board to start a new game
   } else {
     ball.x = canvas.width/2;
@@ -289,34 +286,42 @@ function youWin() {
   ctx.textAlign = 'center'
   ctx.fillText('You Win!!!', canvas.width / 2, canvas.height / 2);
   ball.new = true;
+  isGameOver = true;
 
   // window.cancelAnimationFrame(drawReq);
 }
 
 function gameOver() {
+  // window.cancelAnimationFrame(drawReq);
+
   // display game over message
   ctx.font = '30px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
   ball.new = true;
-  document.location.reload();
-  // window.cancelAnimationFrame(drawReq);
+  isGameOver = true;
+  // var $gameOverDiv = $('#game').prepend('<div id="game-over"></div>');
+  // var $gameOverMessage = $('#game-over').append('<h1 id="g-o-message">Game Over</h1>');
+  // var $newGameButton = $('#game-over').append('<button id="new-game">New Game</button>');
 }
   // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
   // reset();
-
-// function for reseting board
-// function reset() {
+//
+// $newGameButton.click(newGame());
+//
+// // function for reseting board
+// function newGame() {
 //   score = 0;
-//   brick.y = 20;
+//   // brick.y = 20;
+//   ball.x = canvas.width / 2;
+//   ball.y = canvas.height - 60;
+//   paddle.x = canvas.width / 2 - paddle.w / 2;
+//   ball.new = true;
 //   makeBricks();
 //   makeBall();
 //   makePaddle();
-//   remainingLives();
-//   ball.x = canvas.width / 2;
-//   ball.y = 500;
-//   paddle.x = canvas.width / 2 - paddle.w / 2;
+//   makeRemainingLives();
 // }
 
 
