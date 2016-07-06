@@ -1,8 +1,8 @@
 // console.log('javascript linked')
 
 // make scoreboard display divs
-// var $newGameButton = $('<button id="new-game">New Game</button>');
-// $('body').prepend($newGameButton);
+var $newGameButton = $('<button id="new-game">New Game</button>');
+$('body').prepend($newGameButton);
 var $gamesWon = $('<h3 class="score" id="game-count">Games Won: 0</h3>');
 $('body').prepend($gamesWon);
 var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
@@ -11,7 +11,8 @@ $('body').prepend($gameScore);
 // score variables:
 var score = 0;
 var wins = 0;
-var lives = 1;
+var startLives = 2;
+var lives = startLives;
 var isGameOver = false;
 // canvas variables:
 var width = 400;
@@ -25,7 +26,7 @@ canvas.height = height;
 
 // ball variables:
 var ballRadius = 10;
-var ballSpeed = 3;
+var ballSpeed = 2;
 $(document).keypress(spacebarLaunchHandler);
 $('#board').click(clickLaunchHandler);
 // create ball object
@@ -92,6 +93,29 @@ for (var i = 0; i < numRows; i++) {
   for (var j = 0; j < numColumns; j++) {
     allBricks[i][j] = {x: 0, y: 0, status: 1};
   }
+}
+
+
+// listener for a click on the new game button
+$newGameButton.click(newGameHandler);
+
+// function for reseting board and score
+function newGameHandler() {
+  console.log('button clicked!')
+  score = 0;
+  $gameScore.text('Bricks Broken This Game: ' + score);
+  lives = startLives;
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height - 60;
+  paddle.x = canvas.width / 2 - paddle.w / 2;
+  ball.new = true;
+  isGameOver = false;
+  allBricks.forEach(function(row) {
+    row.forEach(function(brick) {
+      brick.status = 1;
+    })
+  })
+  draw();
 }
 
 // functions for moving paddle
@@ -250,7 +274,7 @@ draw();
 function makeRemainingLives() {
   // add lives counter to canvas
   ctx.font = '20px Helvetica';
-  ctx.fillStyle = '#000';
+  ctx.fillStyle = '#000000';
   ctx.fillText('Lives remaining: ', 20, canvas.height - 15);
 
   for (var i = 0; i < lives - 1; i++) {
@@ -307,23 +331,6 @@ function gameOver() {
 }
   // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
   // reset();
-//
-// $newGameButton.click(newGame());
-//
-// // function for reseting board
-// function newGame() {
-//   score = 0;
-//   // brick.y = 20;
-//   ball.x = canvas.width / 2;
-//   ball.y = canvas.height - 60;
-//   paddle.x = canvas.width / 2 - paddle.w / 2;
-//   ball.new = true;
-//   makeBricks();
-//   makeBall();
-//   makePaddle();
-//   makeRemainingLives();
-// }
-
 
 // bonus ideas:
 // make higher rows of bricks worth more points
