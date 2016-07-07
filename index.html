@@ -1,18 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
+
 <head>
-  <link rel="stylesheet" href="css/style.css">
-  <meta charset="UTF-8">
+  <link rel='stylesheet' href='css/style.css'>
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Candal'>
+  <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Nunito'>
+  <meta charset='UTF-8'>
   <title>Breakout! WDI-SM-24 Project 1</title>
 </head>
-<body>
-  <header id="score-board">
 
+<body>
+
+  <header id='score-board'>
+    <h1>BREAKOUT!</h1>
+    <h3 id='game-count'>Games Won: 0</h3>
+    <button id='new-game'>New Game</button>
+    <h3 class='score' id='game-score'>Bricks Broken This Game: 0</h3>
+    <h2 class="score" id="level">Level 1</h2>
+    <h3 class="score" id="level-score">Bricks Broken This Level: 0</h3>
   </header>
+
   <div id='game'>
-    <canvas id="board"></canvas>
+    <canvas id='board'></canvas>
   </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+<script src='https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js'></script>
 <script src='js/main.js'></script>
 </body>
+
 </html>

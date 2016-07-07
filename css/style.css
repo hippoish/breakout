@@ -1,48 +1,71 @@
-document {
-  padding: 0;
+body {
   margin: 0;
+  background: rgba(0,0,0,0.8);
+  color: #ffffff;
+  font-family: 'Nunito', 'Century Gothic', sans-serif;
+  text-align: center;
+}
+
+header {
+  background: rgba(170, 170, 170, .75);
+  border-bottom: 2px solid #9933ff;
+}
+
+h1 {
+  font-family: 'Candal', 'Century Gothic', sans-serif;
+  font-size: 3em;
+  margin: 0 auto;
 }
 
 #score-board {
   margin: auto;
   display: block;
+  padding: 10px;
 }
 
-header {
-  margin: auto;
+#new-game {
+  display: block;
+  margin: 15px auto 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  border: 2px solid #9933ff;
+  border-radius: 10px;
+  color: #000000;
+  cursor: pointer;
+  font-family: 'Nunino', 'Century Gothic', sans-serif;
+  font-size: 15px;
 }
-
-/*#new-game {
-  height:20px;
-  width:100px;
-  margin: -20px -50px;
-  position:relative;
-  top:50%;
-  left:50%;
-}*/
 
 .score {
-display: block;
-margin: auto;
+  margin: auto;
+  display: inline-block;
+}
+/*
+#game-score, #level {
+  float: left;
+}*/
+
+#game-score, #level-score {
+  line-height: 3.6em
 }
 
-#game {
-  height: 412;
-  width: 400;
-  margin: auto;
+#level {
+  font-size: 2.5em;
+  margin: 0 15px auto;
+}
+
+#game-score {
+  float: left;
+}
+
+#level-score {
+  float: right;
 }
 
 #board {
+  clear: both;
   border: 1px solid black;
   display: block;
-  margin: auto;
+  margin: 20px auto;
   background: white;
-}
-
-#game-over {
-  text-align: center;
-  margin: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
 }
