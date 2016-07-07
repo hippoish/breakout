@@ -1,19 +1,19 @@
-///////////////////////////////////
-//////// K. Taylor Britton ////////
-////////   GA WDI-SM-24    ////////
-////////     Project 1     ////////
-////////   July 8, 2016    ////////
-///////////////////////////////////
-////////    BREAKOUT!!    /////////
-///////////////////////////////////
+/////////////////////////////////////////////////////////
+/////////////////// K. Taylor Britton ///////////////////
+///////////////////   GA WDI-SM-24    ///////////////////
+///////////////////     Project 1     ///////////////////
+///////////////////   July 8, 2016    ///////////////////
+/////////////////////////////////////////////////////////
+///////////////////    BREAKOUT!!    ////////////////////
+/////////////////////////////////////////////////////////
 
 
 // CONSTANTS
 // score
-var START_LIVES = 1;
+var START_LIVES = 3;
 // canvas
 var WIDTH = 400;
-var HEIGHT = 500;
+var HEIGHT = 480;
 // ball
 var BALL_RADIUS = 10;
 var BALL_SPEED = 2;
@@ -25,7 +25,7 @@ var PADDLE_SPEED = 7;
 var BOUNCE_INFLUENCE = 0.75;
 // bricks
 // brick dimensions could depend on how many the user wants, ie get bigger when there are fewer so they take up an adequate portion of the screen; would possibly involve using ranges to decide how big to make bricks depending which range the requests fall in. Could also ask for user input for rows and columns
-var NUM_ROWS = 8;
+var NUM_ROWS = 9;
 var NUM_COLUMNS = 6;
 var BRICK_PADDING = 6;
 var BRICK_HEIGHT = HEIGHT / (3 * NUM_ROWS);
@@ -98,7 +98,7 @@ var brick = {
 };
 
 // make scoreboard display
-var $gamesWon = $('#game-count>');
+var $gamesWon = $('#game-count');
 var $newGameButton = $('#new-game');
 var $gameScore = $('#game-score');
 var $levelDisplay = $('#level');
@@ -160,23 +160,27 @@ function mouseMoveHandler(event) {
 
 // function for reseting board, score, and animation when the new game button is clicked
 function newGameHandler() {
+  addListeners();
+  isGameOver = false;
   gameScore = 0;
   $gameScore.text('Bricks Broken This Game: ' + gameScore);
   levelScore = 0;
-  $gameScore.text('Bricks Broken This Level: ' + levelScore);
+  $levelScore.text('Bricks Broken This Level: ' + levelScore);
+  $levelDisplay.text('Level 1');
   lives = START_LIVES;
   ball.x = canvas.width / 2;
   ball.y = canvas.height - 60;
+  ball.xSpeed = BALL_SPEED
+  ball.ySpeed = -BALL_SPEED
   paddle.x = canvas.width / 2 - paddle.w / 2;
   ball.new = true;
-  isGameOver = false;
   allBricks.forEach(function(row) {
     row.forEach(function(brick) {
       brick.status = 1;
     })
   })
-  // restart animation
-  draw();
+  // // restart animation - don't yet know whether i need this
+  // draw();
 }
 
 // draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions
@@ -369,7 +373,7 @@ var levels = [
           // level 2 pattern array
           [
             [1, 0, 0, 0, 0, 1],
-            [1, 0, 0, 0, 0, 1],
+            [1, 0, 1, 1, 0, 1],
             [1, 1, 1, 1, 1, 1],
             [0, 1, 1, 1, 1, 0],
             [0, 0, 1, 1, 0, 0],
@@ -410,18 +414,18 @@ function endLevel() {
   level++;
   isLevelOver = true;
   // play level up noise
-  $levelUpNoise = $('<audio controls autoplay> <source src="assets/mario-slide.wav" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
+  $levelUpNoise = $('<audio controls autoplay> <source src="assets/mario-slide.mp3" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
   // $('body').append($levelUpNoise);
   // add level up message to canvas
   ctx.font = 'bold 50px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
-  ctx.fillText('Level Up', canvas.width / 2, (BRICK_HEIGHT + BRICK_PADDING) * (NUM_ROWS + 2) - 0.5 * BRICK_HEIGHT);
+  ctx.fillText('Level Up', canvas.width / 2, canvas.height / 2);
   // click to continue message
   ctx.font = '20px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
-  ctx.fillText('Click Anywhere To Continue', canvas.width / 2, (BRICK_HEIGHT + BRICK_PADDING) * (NUM_ROWS + 2)) + BRICK_HEIGHT;
+  ctx.fillText('Click Anywhere To Continue', canvas.width / 2, canvas.height / 2 + 30);
   // add click listener to canvas
   $('canvas').on('click', levelUp);
 }
@@ -446,6 +450,8 @@ function levelUp() {
   }
   ball.x = canvas.width / 2;
   ball.y = canvas.height - 60;
+  ball.xSpeed = BALL_SPEED;
+  ball.ySpeed = -BALL_SPEED;
   paddle.x = canvas.width / 2 - paddle.w / 2;
   ball.new = true;
   isLevelOver = false;
@@ -470,7 +476,7 @@ function youWin() {
 
 function gameOver() {
   // play sad trombone noise
-  $sadTromboneNoise = $('<audio controls autoplay> <source src="assets/wah-wah-sad-trombone.wav" type="audio/wav">Your brower SUCKS so it does not support the sad trombone noise</audio>')
+  $sadTromboneNoise = $('<audio controls autoplay> <source src="assets/wah-wah-sad-trombone.mp3" type="audio/wav">Your brower SUCKS so it does not support the sad trombone noise</audio>')
   // $('body').append($sadTromboneNoise);
   // display game over message
   ctx.font = 'bold 50px Helvetica';

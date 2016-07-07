@@ -20,19 +20,19 @@ h1 {
 #score-board {
   margin: auto;
   display: block;
-  padding: 10px;
+  padding: 0;
 }
 
 #new-game {
   display: block;
-  margin: 15px auto 10px;
+  margin: 5px auto 5px;
   background-color: rgba(255, 255, 255, 0.5);
   padding: 10px;
   border: 2px solid #9933ff;
   border-radius: 10px;
   color: #000000;
   cursor: pointer;
-  font-family: 'Nunino', 'Century Gothic', sans-serif;
+  font-family: 'Nunito', 'Century Gothic', sans-serif;
   font-size: 15px;
 }
 
@@ -40,18 +40,14 @@ h1 {
   margin: auto;
   display: inline-block;
 }
-/*
-#game-score, #level {
-  float: left;
-}*/
 
-#game-score, #level-score {
-  line-height: 3.6em
+#game-count {
+  margin: auto;
 }
 
-#level {
-  font-size: 2.5em;
-  margin: 0 15px auto;
+#game-score, #level-score {
+  line-height: 3.6em;
+  padding: 0 10px;
 }
 
 #game-score {
@@ -62,10 +58,36 @@ h1 {
   float: right;
 }
 
+#level {
+  font-size: 2.5em;
+  margin: 0 15px auto;
+}
+
 #board {
   clear: both;
   border: 1px solid black;
   display: block;
-  margin: 20px auto;
+  margin: 2px auto;
   background: white;
+}
+
+@media (max-width: 690px) {
+  #score-board > * {
+    display: block;
+    float: none;
+  }
+  #level{
+    font-size: 2em;
+  }
+  #level-score, #game-score {
+    line-height: 1.5em;
+    font-size: 15px;
+  }
+  #new-game {
+    margin: 0 auto;
+    padding: 5px;
+  }
+  h1 {
+    font-size: 2.5em;
+  }
 }
