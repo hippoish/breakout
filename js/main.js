@@ -1,152 +1,118 @@
-// console.log('javascript linked')
+///////////////////////////////////
+//////// K. Taylor Britton ////////
+////////   GA WDI-SM-24    ////////
+////////     Project 1     ////////
+////////   July 8, 2016    ////////
+///////////////////////////////////
+////////    BREAKOUT!!    /////////
+///////////////////////////////////
 
-// make scoreboard display divs
-var $newGameButton = $('<button id="new-game">New Game</button>');
-$('body').prepend($newGameButton);
-var $gamesWon = $('<h3 class="score" id="game-count">Games Won: 0</h3>');
-$('body').prepend($gamesWon);
-var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
-$('body').prepend($gameScore);
 
-// score variables:
-var score = 0;
-var wins = 0;
-var startLives = 2;
-var lives = startLives;
-var isGameOver = false;
-// canvas variables:
-var width = 400;
-var height = 412;
+// CONSTANTS
+// score
+var START_LIVES = 2;
+// canvas
+var WIDTH = 400;
+var HEIGHT = 412;
+// ball
+var BALL_RADIUS = 10;
+var BALL_SPEED = 2;
+// paddle
+var PADDLE_WIDTH = 75;
+var PADDLE_HEIGHT = 10;
+var PADDLE_SPEED = 7;
+// Bounce-Influence: limit the influence of where the ball hits the paddle on the ball's new xSpeed/trajectory: number between 0 and 1; shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
+var BOUNCE_INFLUENCE = 0.75;
+// bricks
+// brick dimensions could depend on how many the user wants, ie get bigger when there are fewer so they take up an adequate portion of the screen; would possibly involve using ranges to decide how big to make bricks depending which range the requests fall in. Could also ask for user input for rows and columns
+var BRICK_WIDTH = 80;
+var BRICK_HEIGHT = 30;
+var BRICK_PADDING = 6;
+var NUM_ROWS = 1;
+var NUM_COLUMNS = 2;
+// contains as many colors as the max number of allowable rows
+var BRICK_COLORS = ['hotPink', 'mediumVioletRed', 'lightSeaGreen', 'teal', 'steelBlue', 'midnightBlue', 'plum', '#8E4585', 'purple'];
+
 // make canvas
 var canvas = document.getElementById('board');
 var ctx = canvas.getContext('2d');
 
-canvas.width = width;
-canvas.height = height;
+canvas.width = WIDTH;
+canvas.height = HEIGHT;
 
-// ball variables:
-var ballRadius = 10;
-var ballSpeed = 2;
-$(document).keypress(spacebarLaunchHandler);
-$('#board').click(clickLaunchHandler);
-// create ball object
-var ball = {
-  xSpeed: ballSpeed,
-  ySpeed: -ballSpeed,
-  xySpeed: Math.sqrt(Math.pow(ballSpeed, 2) + Math.pow(-ballSpeed, 2)),
-  r: ballRadius,
-  x: canvas.width / 2,
-  y: canvas.height - 60,
-  color: '#000000',
-  new: true
-}
-
-// paddle variables:
+// VARIABLES
+// score
+var score = 0;
+var wins = 0;
+var lives = START_LIVES;
+var isGameOver = false;
+// paddle
 // user controls for paddle
 var rightPressed = false;
 var leftPressed = false;
-// stats for paddle
-var paddleWidth = 75;
-var paddleHeight = 10;
-var paddleSpeed = 7;
-// constant to limit the influence of where the ball hits the paddle on the ball's new xSpeed/trajectory: number between 0 and 1; shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
-var bounceInfluence = 0.5;
-// allow the user to control the paddle with the keyboard
-$(document).keydown(keyDownHandler);
-$(document).keyup(keyUpHandler);
-
-
-// paddle object
-var paddle = {
-  xSpeed: 7,
-  ySpeed: 0,
-  w: paddleWidth,
-  h: paddleHeight,
-  x: (canvas.width - paddleWidth)/ 2,
-  y: ball.y + ball.r,
-  color: '#000000'
-}
-
-// brick variables:
-// brick dimensions could depend on how many the user wants, ie get bigger when there are fewer so they take up an adequate portion of the screen; would involve using ranges to decide how big to make bricks depending which range the requests fall in
-var brickWidth = 80;
-var brickHeight = 30;
-var brickPadding = 6;
-// might get user input for rows and columns, but will have to set limits
-var numRows = 1;
-var numColumns = 2;
-// have to have colors for the max # of rows you're allowing
-var brickColors = ['hotPink', 'mediumVioletRed', 'lightSeaGreen', 'teal', 'steelBlue', 'midnightBlue', 'plum', '#8E4585', 'purple'];
-// an array containing numRows arrays, each containing numColumns objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
+// an array containing NUM_ROWS arrays, each containing NUM_COLUMNS objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
 var allBricks = [];
-
-var brick = {
-  w: brickWidth,
-  h: brickHeight,
-  x: (canvas.width - (numColumns * (brickWidth + brickPadding))) / 2,
-  y: brickHeight
-};
-
-// putting empty bricks into the allBricks var so that it has the right number according to rows and columns
-for (var i = 0; i < numRows; i++) {
+// populate allBricks array with empty coordinate objects; set all statuses to 1 so that they will display by default
+for (var i = 0; i < NUM_ROWS; i++) {
   allBricks[i] = [];
-  for (var j = 0; j < numColumns; j++) {
+  for (var j = 0; j < NUM_COLUMNS; j++) {
     allBricks[i][j] = {x: 0, y: 0, status: 1};
   }
 }
 
+// ball properties
+var ball = {
+  xSpeed: BALL_SPEED,
+  ySpeed: -BALL_SPEED,
+  xySpeed: Math.sqrt(Math.pow(BALL_SPEED, 2) + Math.pow(-BALL_SPEED, 2)),
+  r: BALL_RADIUS,
+  x: canvas.width / 2,
+  y: canvas.height - 60,
+  color: '#000000',
+  // tells the ball whether to be moving or wait for launch
+  new: true
+}
 
-// listener for a click on the new game button
+// paddle properties
+var paddle = {
+  xSpeed: 7,
+  ySpeed: 0,
+  w: PADDLE_WIDTH,
+  h: PADDLE_HEIGHT,
+  x: (canvas.width - PADDLE_WIDTH)/ 2,
+  y: ball.y + ball.r,
+  color: '#000000'
+}
+
+// individual brick properties
+var brick = {
+  w: BRICK_WIDTH,
+  h: BRICK_HEIGHT,
+  x: (canvas.width - (NUM_COLUMNS * (BRICK_WIDTH + BRICK_PADDING))) / 2,
+  y: BRICK_HEIGHT
+};
+
+// make scoreboard display
+var $newGameButton = $('<button id="new-game">New Game</button>');
+$('header').prepend($newGameButton);
+var $gamesWon = $('<h3 class="score" id="game-count">Games Won: 0</h3>');
+$('header').prepend($gamesWon);
+var $gameScore = $('<h3 class="score" id="game-score">Bricks Broken This Game: 0</h3>');
+$('header').prepend($gameScore);
+
+// EVENT LISTENERS
+// ball launch
+$(document).keypress(spacebarLaunchHandler);
+$('#board').click(clickLaunchHandler);
+// paddle control (keyboard)
+$(document).keydown(keyDownHandler);
+$(document).keyup(keyUpHandler);
+// paddle control(mouse)
+$('#board').mousemove(mouseMoveHandler);
+// new game button
 $newGameButton.click(newGameHandler);
 
-// function for reseting board and score
-function newGameHandler() {
-  console.log('button clicked!')
-  score = 0;
-  $gameScore.text('Bricks Broken This Game: ' + score);
-  lives = startLives;
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height - 60;
-  paddle.x = canvas.width / 2 - paddle.w / 2;
-  ball.new = true;
-  isGameOver = false;
-  allBricks.forEach(function(row) {
-    row.forEach(function(brick) {
-      brick.status = 1;
-    })
-  })
-  draw();
-}
-
-// functions for moving paddle
-function keyDownHandler(event) {
-  if (event.keyCode === 39) {
-    rightPressed = true;
-  } else if (event.keyCode === 37) {
-    leftPressed = true;
-  }
-}
-
-function keyUpHandler(event) {
-  if (event.keyCode === 39) {
-    rightPressed = false;
-  } else if (event.keyCode === 37) {
-    leftPressed = false;
-  }
-}
-
-// ball
-function makeBall() {
-  if (ball.new) {
-    ball.x = paddle.x + paddle.w / 2;
-  }
-  ctx.beginPath();
-  ctx.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
-  ctx.fillStyle = ball.color;
-  ctx.fill();
-  ctx.closePath();
-}
-
+// EVENT FUNCTIONS
 // launch ball on spacebar press
 function spacebarLaunchHandler(event) {
   if (event.keyCode === 32) {
@@ -158,7 +124,149 @@ function clickLaunchHandler() {
   ball.new = false;
 }
 
-// paddle
+// function for moving paddle
+function keyDownHandler(event) {
+  // look for right arrow key
+  if (event.keyCode === 39) {
+    rightPressed = true;
+  }
+  // look for left arrow key
+  else if (event.keyCode === 37) {
+    leftPressed = true;
+  }
+}
+// function for stopping paddle motion when key is lifted
+function keyUpHandler(event) {
+  if (event.keyCode === 39) {
+    rightPressed = false;
+  } else if (event.keyCode === 37) {
+    leftPressed = false;
+  }
+}
+
+// function for moving paddle according to movement of mouse
+function mouseMoveHandler(event) {
+  var relativeX = event.clientX - canvas.offsetLeft;
+  if (relativeX > paddle.w/2 && relativeX < canvas.width - paddle.w/2) {
+    paddle.x = relativeX - paddle.w/2;
+  }
+}
+
+// function for reseting board, score, and animation
+function newGameHandler() {
+  console.log('button clicked!')
+  score = 0;
+  $gameScore.text('Bricks Broken This Game: ' + score);
+  lives = START_LIVES;
+  ball.x = canvas.width / 2;
+  ball.y = canvas.height - 60;
+  paddle.x = canvas.width / 2 - paddle.w / 2;
+  ball.new = true;
+  isGameOver = false;
+  allBricks.forEach(function(row) {
+    row.forEach(function(brick) {
+      brick.status = 1;
+    })
+  })
+  // restart animation
+  draw();
+}
+
+// draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions
+function draw() {
+  // clear the canvas
+  ctx.clearRect(0,0,canvas.width, canvas.height)
+  makeBricks();
+  makeBall();
+  makePaddle();
+  collisionDetection();
+  makeRemainingLives();
+
+  // if the ball is new, it should be waiting for launch, if not, it should be moving
+  if (!ball.new) {
+    // bounce off the side walls
+    if (ball.x + ball.xSpeed + ball.r > canvas.width || ball.x + ball.xSpeed - ball.r < 0) {
+      ball.xSpeed = -ball.xSpeed;
+    }
+    // bounce off the top wall
+    if (ball.y + ball.ySpeed - ball.r < 0) {
+      ball.ySpeed = -ball.ySpeed;
+    }
+    // bottom of the ball's trajectory
+    else if (ball.y + ball.ySpeed + ball.r > paddle.y) {
+      // if the ball hits the paddle
+      if (ball.x > paddle.x && ball.x < paddle.x + paddle.w) {
+        // determine where the ball bounced relative to the center of the paddle as a number between -1 and 1
+        var paddleCenter = paddle.x + paddle.w / 2;
+        var ballRelX = (ball.x - paddleCenter)/(0.5 * paddle.w)
+        // new xSpeed for ball based on overall speed, relative x position, and influence factor
+        ball.xSpeed = ball.xySpeed * ballRelX * BOUNCE_INFLUENCE;
+        // new ySpeed based on constant overall speed and new xSpeed (pythagorean theorem)
+        ball.ySpeed = -Math.sqrt((Math.pow(ball.xySpeed, 2) - Math.pow(ball.xSpeed, 2)));
+      }
+      // if the ball misses the paddle
+      else {
+        lives--;
+        checkLives();
+      }
+    }
+
+    // move the paddle right while the right arrow is held down
+    if (rightPressed && paddle.x + paddle.w < canvas.width) {
+      paddle.x += paddleSpeed;
+    }
+    // move the paddle left while the left arrow is held down
+    else if (leftPressed && paddle.x > 0) {
+      paddle.x -= paddleSpeed;
+    }
+
+    // change the ball location according to its speed for the next frame
+    ball.x += ball.xSpeed;
+    ball.y += ball.ySpeed;
+  }
+  if (!isGameOver) {
+    // if the game isn't over, keep redrawing the canvas frame by frame
+    requestAnimationFrame(draw);
+  }
+}
+
+// draw first frame to start animation
+draw();
+
+// draw a rectangular board based on the numbers of rows and columns
+function makeBricks() {
+  for (var i = 0; i < NUM_ROWS; i++) {
+    for (var j = 0; j < NUM_COLUMNS; j++) {
+      if (allBricks[i][j].status === 1) {
+        var brickX = (canvas.width - (NUM_COLUMNS * (brick.w + BRICK_PADDING))) / 2 + j * (brick.w + BRICK_PADDING);
+        var brickY = brick.h + (i * (brick.h + BRICK_PADDING));
+        allBricks[i][j].x = brickX;
+        allBricks[i][j].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX,brickY,brick.w,brick.h);
+        ctx.fillStyle = BRICK_COLORS[i];
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+
+// draw ball
+function makeBall() {
+  // if it's a new ball, place it in the middle of the paddle
+  if (ball.new) {
+    ball.x = paddle.x + paddle.w / 2;
+    ball.y = paddle.y - ball.r;
+  }
+  ctx.beginPath();
+  ctx.arc(ball.x,ball.y,ball.r,0,2*Math.PI);
+  ctx.fillStyle = ball.color;
+  ctx.fill();
+  ctx.closePath();
+}
+
+// draw paddle
 function makePaddle() {
   ctx.beginPath();
   ctx.rect(paddle.x, paddle.y, paddle.w, paddle.h);
@@ -167,40 +275,25 @@ function makePaddle() {
   ctx.closePath();
 }
 
-// could i build different shaped boards for different levels by using switch statements? ie, a case for the first row, second row, third row, etc that all build different numbers of bricks?
-// function to set a new board
-function makeBricks() {
-  // brick.x = (canvas.width - (numColumns * (brick.w + brickPadding))) / 2,
-  // brick.y = brick.h
-  for (var i = 0; i < numRows; i++) {
-    for (var j = 0; j < numColumns; j++) {
-      if (allBricks[i][j].status === 1) {
-        var brickX = (canvas.width - (numColumns * (brick.w + brickPadding))) / 2 + j * (brick.w + brickPadding);
-        var brickY = brick.h + (i * (brick.h + brickPadding));
-        allBricks[i][j].x = brickX;
-        allBricks[i][j].y = brickY;
-        ctx.beginPath();
-        ctx.rect(brickX,brickY,brick.w,brick.h);
-        ctx.fillStyle = brickColors[i];
-        ctx.fill();
-        ctx.closePath();
-      }
-    }
-  }
-}
-
+//  each frame, check for collisions with bricks
 function collisionDetection() {
-  for (var i = 0; i < numRows; i++) {
-    for (var j = 0; j < numColumns; j++) {
+  for (var i = 0; i < NUM_ROWS; i++) {
+    for (var j = 0; j < NUM_COLUMNS; j++) {
+      // look one by one at the coordinates of each brick
       var thisBrick = allBricks[i][j];
+      // if the brick has not yet been hit
       if (thisBrick.status === 1) {
+        // if the ball's next movement will make it collide with the edge of a brick
         if (ball.x + ball.r > thisBrick.x  && ball.x - ball.r < thisBrick.x + brick.w && ball.y + ball.r > thisBrick.y && ball.y - ball.r < thisBrick.y + brick.h) {
+          // reverse the vertical direction of the ball
           ball.ySpeed = -ball.ySpeed;
+          // set brick status to 0, ie already been hit
           thisBrick.status = 0;
+          // increase the score for the current game
           score++;
           $gameScore.text('Bricks Broken This Game: ' + score);
-          // check if all bricks are broken, and if so, run the win function
-          if (score === numRows * numColumns) {
+          // if all bricks are broken run the win function
+          if (score === NUM_ROWS * NUM_COLUMNS) {
             youWin();
           }
         }
@@ -209,93 +302,35 @@ function collisionDetection() {
   }
 }
 
-var drawReq;
-
-function draw() {
-  ctx.clearRect(0,0,canvas.width, canvas.height)
-  makeBricks();
-  makeBall();
-  makePaddle();
-  makeRemainingLives();
-  collisionDetection();
-
-  // bounce off the side walls
-  if (!ball.new) {
-    if (ball.x + ball.xSpeed + ball.r > canvas.width || ball.x + ball.xSpeed - ball.r < 0) {
-      ball.xSpeed = -ball.xSpeed;
-    }
-    if (ball.y + ball.ySpeed - ball.r < 0) {
-      ball.ySpeed = -ball.ySpeed;
-    } else if (ball.y + ball.ySpeed + ball.r > paddle.y) {
-      if (ball.x > paddle.x && ball.x < paddle.x + paddle.w) {
-        // determine where the ball bounced relative to the center of the paddle as a number between -1 and 1
-        var paddleCenter = paddle.x + paddle.w / 2;
-        var ballRelX = (ball.x - paddleCenter)/(0.5 * paddle.w)
-        // new xSpeed for ball based on overall speed, relative x position, and influence factor
-        ball.xSpeed = ball.xySpeed * ballRelX * bounceInfluence;
-        // new ySpeed based on constant overall speed and new xSpeed
-        ball.ySpeed = -Math.sqrt((Math.pow(ball.xySpeed, 2) - Math.pow(ball.xSpeed, 2)));
-      } else {
-        lives--;
-        checkLives();
-      }
-    }
-
-    if (rightPressed && paddle.x + paddle.w < canvas.width) {
-      paddle.x += paddleSpeed;
-    } else if (leftPressed && paddle.x > 0) {
-      paddle.x -= paddleSpeed;
-    }
-
-    ball.x += ball.xSpeed;
-    ball.y += ball.ySpeed;
-  }
-  if (!isGameOver) {
-    drawReq = requestAnimationFrame(draw);
-  }
-}
-
-// control the paddle with the mouse
-// document.addEventListener('mousemove', mouseMoveHandler, false);
-$('#board').mousemove(mouseMoveHandler);
-
-function mouseMoveHandler(event) {
-  var relativeX = event.clientX - canvas.offsetLeft;
-  if (relativeX > paddle.w/2 && relativeX < canvas.width - paddle.w/2) {
-    paddle.x = relativeX - paddle.w/2;
-  }
-}
-
-draw();
-
-// setInterval(draw, 10);
-
-// display the number of lives left graphically beneath the paddle
+// display lives counter
 function makeRemainingLives() {
-  // add lives counter to canvas
+  // add text
   ctx.font = '20px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center';
   ctx.fillText('Lives remaining: ', 100, canvas.height - 15);
 
+  // add mini balls to represent lives
   for (var i = 0; i < lives - 1; i++) {
     ctx.fillStyle = '#aaaaaa';
     ctx.beginPath();
-    ctx.arc((200)+i*(2*ball.r + brickPadding),canvas.height - 22,ball.r/2,0,2*Math.PI);
+    ctx.arc((200)+i*(2*ball.r + BRICK_PADDING),canvas.height - 22,ball.r/2,0,2*Math.PI);
     ctx.fill();
   }
 }
 
-// paddle ball and bricks will reset when all the bricks are broken or lives are out
+// check whether the game is over
 function checkLives(){
+  // if there are no lives left
   if (!lives) {
+    // run the game over function
     gameOver();
-    // want to add a button for reseting the board to start a new game
   } else {
+    // otherwise, reset the ball and paddle to the start state to start the next life
     ball.x = canvas.width/2;
     ball.y = canvas.height-60;
-    ball.xSpeed = ballSpeed;
-    ball.ySpeed = -ballSpeed;
+    ball.xSpeed = BALL_SPEED;
+    ball.ySpeed = -BALL_SPEED;
     ball.new = true;
     paddle.x = (canvas.width - paddle.w) / 2;
   }
@@ -312,30 +347,16 @@ function youWin() {
   ctx.fillText('You Win!!!', canvas.width / 2, canvas.height / 2);
   ball.new = true;
   isGameOver = true;
-
-  // window.cancelAnimationFrame(drawReq);
 }
 
 function gameOver() {
-  // window.cancelAnimationFrame(drawReq);
-
   // display game over message
   ctx.font = '30px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
+  // reset ball.new to true so it will wait for launch
   ball.new = true;
+  // reset isGameOver to true so drawing will pause
   isGameOver = true;
-  // var $gameOverDiv = $('#game').prepend('<div id="game-over"></div>');
-  // var $gameOverMessage = $('#game-over').append('<h1 id="g-o-message">Game Over</h1>');
-  // var $newGameButton = $('#game-over').append('<button id="new-game">New Game</button>');
 }
-  // reset... maybe after user confirmation of some sort? New Game/Play again option? if no button, at least time out for a moment after displaying game over and before resetting
-  // reset();
-
-// bonus ideas:
-// make higher rows of bricks worth more points
-// allow user to choose different brick shapes
-// allow user to make the ball go faster
-// make different levels with slower/faster balls and different brick layouts
-// have special bricks that do things like give extra lives or split the paddle or ball
