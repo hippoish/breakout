@@ -16,7 +16,7 @@ var WIDTH = 400;
 var HEIGHT = 480;
 // ball
 var BALL_RADIUS = 10;
-var BALL_SPEED = 2;
+var BALL_SPEED = 2.5;
 // paddle
 var PADDLE_WIDTH = 75;
 var PADDLE_HEIGHT = 10;
@@ -25,8 +25,8 @@ var PADDLE_SPEED = 7;
 var BOUNCE_INFLUENCE = 0.75;
 // bricks
 // brick dimensions are calculated to fit the board based on the number of rows and columns
-var NUM_ROWS = 9;
-var NUM_COLUMNS = 6;
+var NUM_ROWS = 2;
+var NUM_COLUMNS = 3;
 var BRICK_PADDING = 6;
 var BRICK_HEIGHT = HEIGHT / (3 * NUM_ROWS);
 var BRICK_WIDTH = WIDTH / NUM_COLUMNS - BRICK_PADDING;
@@ -44,7 +44,7 @@ canvas.height = HEIGHT;
 // score
 var levelScore = 0;
 var gameScore = 0;
-var wins = 0;
+//var wins = 0;
 var lives = START_LIVES;
 var isGameOver = false;
 var isLevelOver = false;
@@ -55,9 +55,9 @@ var maxPoints = NUM_ROWS * NUM_COLUMNS;
 // user controls for paddle
 var rightPressed = false;
 var leftPressed = false;
-// an array containing NUM_ROWS arrays, each containing NUM_COLUMNS objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard. Should it be 'brokenBricks' instead?
+// an array containing NUM_ROWS arrays, each containing NUM_COLUMNS objects consisting of the x and y positions of every brick in the row. this is to keep track of the locations of all the bricks on the gameBoard and whether they are turned 'on' or 'off'
 var allBricks = [];
-// populate allBricks array with empty coordinate objects; set all statuses to 1 so that they will display by default
+// populate allBricks array with empty coordinate/status objects; set all statuses to 1 so that they will display by default on level 1
 for (var i = 0; i < NUM_ROWS; i++) {
   allBricks[i] = [];
   for (var j = 0; j < NUM_COLUMNS; j++) {
@@ -99,7 +99,6 @@ var brick = {
 
 // make scoreboard display
 var $gamesWon = $('#game-count');
-var $newGameButton = $('#new-game');
 var $gameScore = $('#game-score');
 var $levelDisplay = $('#level');
 var $levelScore = $('#level-score');
@@ -114,8 +113,6 @@ function addListeners() {
   $(document).keyup(keyUpHandler);
   // paddle control(mouse)
   $('#board').mousemove(mouseMoveHandler);
-  // new game button
-  $newGameButton.click(newGameHandler);
 }
 
 // EVENT FUNCTIONS
@@ -158,34 +155,7 @@ function mouseMoveHandler(event) {
   }
 }
 
-// function for reseting board, score, and animation when the new game button is clicked
-function newGameHandler(event) {
-  // addListeners();
-  isGameOver = false;
-  isLevelOver = false;
-  ball.new = true;
-  lives = START_LIVES;
-  gameScore = 0;
-  $gameScore.text('Bricks Broken This Game: ' + gameScore);
-  levelScore = 0;
-  $levelScore.text('Bricks Broken This Level: ' + levelScore);
-  $levelDisplay.text('Level 1');
-  ball.x = canvas.width / 2;
-  ball.y = canvas.height - 60;
-  // ball.xSpeed = BALL_SPEED;
-  // ball.ySpeed = -BALL_SPEED;
-  paddle.x = canvas.width / 2 - paddle.w / 2;
-  // addListeners();
-  allBricks.forEach(function(row) {
-    row.forEach(function(brick) {
-      brick.status = 1;
-    })
-  })
-  // restart animation - don't yet know whether i need this
-  draw();
-}
-
-// draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions
+// draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions. starts immediately, but ball only starts animating once it has been launched
 function draw() {
   // clear the canvas
   ctx.clearRect(0,0,canvas.width, canvas.height)
@@ -247,13 +217,13 @@ function draw() {
 // draw first frame to start animation
 draw();
 
-// draw a rectangular board based on the numbers of rows and columns
+// draw a board based on the numbers of rows and columns and the status of each brick
 function makeBricks() {
   for (var i = 0; i < NUM_ROWS; i++) {
     for (var j = 0; j < NUM_COLUMNS; j++) {
       if (allBricks[i][j].status === 1) {
         var brickX = BRICK_PADDING / 2 + j * (brick.w + BRICK_PADDING);
-        var brickY = brick.h + (i * (brick.h + BRICK_PADDING));
+        var brickY = 20 + (i * (brick.h + BRICK_PADDING));
         allBricks[i][j].x = brickX;
         allBricks[i][j].y = brickY;
         ctx.beginPath();
@@ -308,8 +278,8 @@ function collisionDetection() {
           levelScore++;
           $gameScore.text('Bricks Broken This Game: ' + gameScore);
           $levelScore.text('Bricks Broken This Level: ' + levelScore)
-          // if all bricks are broken run the win function
 
+          // if all bricks are broken run the levelUp or youWin function
           if (levelScore === maxPoints) {
             if (level === 4) {
               youWin();
@@ -341,7 +311,7 @@ function makeRemainingLives() {
   }
 }
 
-// check whether the game is over
+// check whether the game is over due to loss of lives
 function checkLives(){
   // if there are no lives left
   if (!lives) {
@@ -416,7 +386,7 @@ function endLevel() {
   level++;
   isLevelOver = true;
   // play level up noise
-  $levelUpNoise = $('<audio controls autoplay> <source src="assets/mario-slide.mp3" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
+  $('<audio controls autoplay> <source src="assets/mario-slide.mp3" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
   // add level up message to canvas
   ctx.font = 'bold 50px Helvetica';
   ctx.fillStyle = '#000000';
@@ -436,7 +406,7 @@ function levelUp() {
   levelScore = 0;
   // change the level label to the new level
   $('#level').text('Level ' + level);
-  // set the brick statuses for the next level
+  // set the brick statuses for the next level according to the levels array
   for (var i = 0; i < NUM_ROWS; i++) {
     for (var j = 0; j < NUM_COLUMNS; j++) {
       allBricks[i][j].status = levels[level-1][i][j];
@@ -451,22 +421,20 @@ function levelUp() {
   }
   ball.x = canvas.width / 2;
   ball.y = canvas.height - 60;
+  BALL_SPEED++;
   ball.xSpeed = BALL_SPEED;
   ball.ySpeed = -BALL_SPEED;
+  ball.xySpeed = Math.sqrt(Math.pow(BALL_SPEED, 2) + Math.pow(-BALL_SPEED, 2))
   paddle.x = canvas.width / 2 - paddle.w / 2;
   ball.new = true;
   isLevelOver = false;
   $('canvas').off('click');
   // restart animation
   draw();
-
 }
 
 function youWin() {
-  // increment game win counter and display it
-  wins++;
-  $gamesWon.text('Games Won: ' + wins);
-  // display win message
+  $('<audio controls autoplay> <source src="assets/mario-slide.mp3" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
   ctx.font = 'bold 50px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
@@ -477,7 +445,7 @@ function youWin() {
 
 function gameOver() {
   // play sad trombone noise
-  $sadTromboneNoise = $('<audio controls autoplay> <source src="assets/wah-wah-sad-trombone.mp3" type="audio/wav">Your brower SUCKS so it does not support the sad trombone noise</audio>')
+  $('<audio controls autoplay> <source src="assets/wah-wah-sad-trombone.mp3" type="audio/wav">Your brower SUCKS so it does not support the sad trombone noise</audio>')
   // display game over message on a white rect
   ctx.beginPath();
   ctx.rect(0, 0, canvas.width, canvas.height);
@@ -492,6 +460,4 @@ function gameOver() {
   ball.new = true;
   // reset isGameOver to true so drawing will pause
   isGameOver = true;
-  ball.xSpeed = BALL_SPEED;
-  ball.ySpeed = -BALL_SPEED;
 }

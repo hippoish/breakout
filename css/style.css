@@ -14,26 +14,13 @@ header {
 h1 {
   font-family: 'Candal', 'Century Gothic', sans-serif;
   font-size: 3em;
-  margin: 0 auto;
+  margin: 0 auto 15px;
 }
 
 #score-board {
   margin: auto;
   display: block;
   padding: 0;
-}
-
-#new-game {
-  display: block;
-  margin: 5px auto 5px;
-  background-color: rgba(255, 255, 255, 0.5);
-  padding: 10px;
-  border: 2px solid #9933ff;
-  border-radius: 10px;
-  color: #000000;
-  cursor: pointer;
-  font-family: 'Nunito', 'Century Gothic', sans-serif;
-  font-size: 15px;
 }
 
 .score {
@@ -67,7 +54,7 @@ h1 {
   clear: both;
   border: 1px solid black;
   display: block;
-  margin: 2px auto;
+  margin: 30px auto;
   background: white;
 }
 
@@ -76,17 +63,16 @@ h1 {
     display: block;
     float: none;
   }
+
   #level{
     font-size: 2em;
   }
+
   #level-score, #game-score {
     line-height: 1.5em;
     font-size: 15px;
   }
-  #new-game {
-    margin: 0 auto;
-    padding: 5px;
-  }
+
   h1 {
     font-size: 2.5em;
   }
