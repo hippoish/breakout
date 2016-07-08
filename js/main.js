@@ -24,8 +24,8 @@ var PADDLE_SPEED = 7;
 var BOUNCE_INFLUENCE = 0.75;
 // bricks
 // brick dimensions are calculated to fit the board based on the number of rows and columns
-var NUM_ROWS = 2;
-var NUM_COLUMNS = 3;
+var NUM_ROWS = 9;
+var NUM_COLUMNS = 6;
 var BRICK_PADDING = 6;
 var BRICK_HEIGHT = HEIGHT / (3 * NUM_ROWS);
 var BRICK_WIDTH = WIDTH / NUM_COLUMNS - BRICK_PADDING;
