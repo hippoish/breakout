@@ -47,7 +47,7 @@ h1 {
 
 #game-score, #level-score {
   line-height: 3.6em;
-  padding: 0 10px;
+  padding: 0 5%;
 }
 
 #game-score {
@@ -71,7 +71,7 @@ h1 {
   background: white;
 }
 
-@media (max-width: 690px) {
+@media (max-width: 820px) {
   #score-board > * {
     display: block;
     float: none;

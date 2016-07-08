@@ -24,7 +24,7 @@ var PADDLE_SPEED = 7;
 // Bounce-Influence: limit the influence of where the ball hits the paddle on the ball's new xSpeed/trajectory: number between 0 and 1; shouldn't be 0 or the ball will just bounce straight up and down with no xSpeed
 var BOUNCE_INFLUENCE = 0.75;
 // bricks
-// brick dimensions could depend on how many the user wants, ie get bigger when there are fewer so they take up an adequate portion of the screen; would possibly involve using ranges to decide how big to make bricks depending which range the requests fall in. Could also ask for user input for rows and columns
+// brick dimensions are calculated to fit the board based on the number of rows and columns
 var NUM_ROWS = 9;
 var NUM_COLUMNS = 6;
 var BRICK_PADDING = 6;
@@ -159,28 +159,30 @@ function mouseMoveHandler(event) {
 }
 
 // function for reseting board, score, and animation when the new game button is clicked
-function newGameHandler() {
-  addListeners();
+function newGameHandler(event) {
+  // addListeners();
   isGameOver = false;
+  isLevelOver = false;
+  ball.new = true;
+  lives = START_LIVES;
   gameScore = 0;
   $gameScore.text('Bricks Broken This Game: ' + gameScore);
   levelScore = 0;
   $levelScore.text('Bricks Broken This Level: ' + levelScore);
   $levelDisplay.text('Level 1');
-  lives = START_LIVES;
   ball.x = canvas.width / 2;
   ball.y = canvas.height - 60;
-  ball.xSpeed = BALL_SPEED
-  ball.ySpeed = -BALL_SPEED
+  // ball.xSpeed = BALL_SPEED;
+  // ball.ySpeed = -BALL_SPEED;
   paddle.x = canvas.width / 2 - paddle.w / 2;
-  ball.new = true;
+  // addListeners();
   allBricks.forEach(function(row) {
     row.forEach(function(brick) {
       brick.status = 1;
     })
   })
-  // // restart animation - don't yet know whether i need this
-  // draw();
+  // restart animation - don't yet know whether i need this
+  draw();
 }
 
 // draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions
@@ -415,7 +417,6 @@ function endLevel() {
   isLevelOver = true;
   // play level up noise
   $levelUpNoise = $('<audio controls autoplay> <source src="assets/mario-slide.mp3" type="audio/wav">Your brower SUCKS so it does not support the mario slide noise</audio>')
-  // $('body').append($levelUpNoise);
   // add level up message to canvas
   ctx.font = 'bold 50px Helvetica';
   ctx.fillStyle = '#000000';
@@ -477,14 +478,20 @@ function youWin() {
 function gameOver() {
   // play sad trombone noise
   $sadTromboneNoise = $('<audio controls autoplay> <source src="assets/wah-wah-sad-trombone.mp3" type="audio/wav">Your brower SUCKS so it does not support the sad trombone noise</audio>')
-  // $('body').append($sadTromboneNoise);
-  // display game over message
+  // display game over message on a white rect
+  ctx.beginPath();
+  ctx.rect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = 'rgba(255,255,255,0.7)'
+  ctx.fill();
+  ctx.closePath();
   ctx.font = 'bold 50px Helvetica';
   ctx.fillStyle = '#000000';
   ctx.textAlign = 'center'
-  ctx.fillText('Game Over', canvas.width / 2, (BRICK_HEIGHT + BRICK_PADDING) * (NUM_ROWS + 1.5));
+  ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
   // reset ball.new to true so it will wait for launch
   ball.new = true;
   // reset isGameOver to true so drawing will pause
   isGameOver = true;
+  ball.xSpeed = BALL_SPEED;
+  ball.ySpeed = -BALL_SPEED;
 }
