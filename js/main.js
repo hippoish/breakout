@@ -225,11 +225,11 @@ function draw() {
 
     // move the paddle right while the right arrow is held down
     if (rightPressed && paddle.x + paddle.w < canvas.width) {
-      paddle.x += paddleSpeed;
+      paddle.x += PADDLE_SPEED;
     }
     // move the paddle left while the left arrow is held down
     else if (leftPressed && paddle.x > 0) {
-      paddle.x -= paddleSpeed;
+      paddle.x -= PADDLE_SPEED;
     }
 
     // change the ball location according to its speed for the next frame
