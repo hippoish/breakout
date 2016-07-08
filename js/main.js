@@ -7,7 +7,6 @@
 ///////////////////    BREAKOUT!!    ////////////////////
 /////////////////////////////////////////////////////////
 
-
 // CONSTANTS
 // score
 var START_LIVES = 3;
@@ -44,7 +43,6 @@ canvas.height = HEIGHT;
 // score
 var levelScore = 0;
 var gameScore = 0;
-//var wins = 0;
 var lives = START_LIVES;
 var isGameOver = false;
 var isLevelOver = false;
@@ -74,13 +72,13 @@ var ball = {
   x: canvas.width / 2,
   y: canvas.height - 60,
   color: '#000000',
-  // tells the ball whether to be moving or wait for launch
+  // tells the ball whether wait for launch or be moving
   new: true
 }
 
 // paddle properties
 var paddle = {
-  xSpeed: 7,
+  xSpeed: PADDLE_SPEED,
   ySpeed: 0,
   w: PADDLE_WIDTH,
   h: PADDLE_HEIGHT,
@@ -97,8 +95,7 @@ var brick = {
   y: BRICK_HEIGHT
 };
 
-// make scoreboard display
-var $gamesWon = $('#game-count');
+// get all scoreboard elements and store them in variables for later updating
 var $gameScore = $('#game-score');
 var $levelDisplay = $('#level');
 var $levelScore = $('#level-score');
@@ -214,7 +211,7 @@ function draw() {
   }
 }
 
-// draw first frame to start animation
+// draw first frame to start animation; this function will continue to call itself after this
 draw();
 
 // draw a board based on the numbers of rows and columns and the status of each brick
