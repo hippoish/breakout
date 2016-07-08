@@ -30,7 +30,7 @@ I started with a basic organization of bricks, and once I was comfortable with t
 Clone the repository from github to your computer and open the index.html file in your browser.
 
 #####Unsolved Problems
-
+I had a "New Game" button that at some point early on worked, but that by the end I could not get to properly reset the ball and board after Game Over.  Sometimes it worked, sometimes it didn't do anything at all, and sometimes the board reset but the ball acted super erratically on launch, making it impossible to continue to play.  The reset button is a very important function, and I think it's important that I continue to look into where in the gameOver/newGame process the bug was happening and how to fix it.  
 
 #####Next Steps/Future Features
 - different points values on different bricks
