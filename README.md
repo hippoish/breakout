@@ -4,7 +4,7 @@
 ####WDI-SM-24
 
 ####Play Breakout! here:
-https://hippoish.github.io/project1_brick_breaker/
+https://hippoish.github.io/breakout/
 
 #####Project Board on Trello:
 https://trello.com/b/ozOjZBRa/project1-breakout
