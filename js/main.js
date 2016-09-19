@@ -101,8 +101,8 @@ var $levelDisplay = $('#level');
 var $levelScore = $('#level-score');
 
 // EVENT LISTENERS
-// ball launch
 function addListeners() {
+  // ball launch
   $(document).keypress(spacebarLaunchHandler);
   $('#board').click(clickLaunchHandler);
   // paddle control (keyboard)
@@ -110,6 +110,8 @@ function addListeners() {
   $(document).keyup(keyUpHandler);
   // paddle control(mouse)
   $('#board').mousemove(mouseMoveHandler);
+  // new game button
+  $('#new-game-button').click(newGameHandler);
 }
 
 // EVENT FUNCTIONS
@@ -150,6 +152,47 @@ function mouseMoveHandler(event) {
   if (relativeX > paddle.w/2 && relativeX < canvas.width - paddle.w/2) {
     paddle.x = relativeX - paddle.w/2;
   }
+}
+
+// function for reseting board, score, and animation when the new game button is clicked
+function newGameHandler(event) {
+  // reload the page to start a new game
+  location.reload();
+  // the following is code in progress. there is a glitch in the function that is not allowing for the ball movement to work properly after reset
+  // addListeners();
+  // isGameOver = false;
+  // isLevelOver = false;
+  // ball.new = true;
+  // lives = START_LIVES;
+  // gameScore = 0;
+  // $gameScore.text('Bricks Broken This Game: ' + gameScore);
+  // levelScore = 0;
+  // $levelScore.text('Bricks Broken This Level: ' + levelScore);
+  // $levelDisplay.text('Level 1');
+  // ball.x = canvas.width / 2;
+  // ball.y = canvas.height - 60;
+  // ball.xSpeed = BALL_SPEED;
+  // ball.ySpeed = -BALL_SPEED;
+  // paddle.x = canvas.width / 2 - paddle.w / 2;
+  // // addListeners();
+  // allBricks.forEach(function(row) {
+  //   row.forEach(function(brick) {
+  //     brick.status = 1;
+  //   })
+  // })
+  // // draw();
+  // // restart animation - don't yet know whether i need this
+  // // clear the canvas
+  // ctx.clearRect(0,0,canvas.width, canvas.height)
+  // addListeners();
+  // makeBricks();
+  // makeBall();
+  // makePaddle();
+  // collisionDetection();
+  // makeRemainingLives();
+  //
+  // addListeners();
+  // // draw();
 }
 
 // draw is the only function called automatically; it animates the game by calculating new ball and paddle positions and redrawing all canvas shapes frame by frame according to other functions. starts immediately, but ball only starts animating once it has been launched
@@ -454,7 +497,7 @@ function gameOver() {
   ctx.textAlign = 'center'
   ctx.fillText('Game Over', canvas.width / 2, canvas.height / 2);
   // reset ball.new to true so it will wait for launch
-  ball.new = true;
+  // ball.new = true;
   // reset isGameOver to true so drawing will pause
   isGameOver = true;
 }
